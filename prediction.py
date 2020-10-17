@@ -308,11 +308,12 @@ class DrawDistance:
         occ = {}
         sumdist = {}
 
-        for x in range(1,matrix.shape[0]):
+        for x in range(0,matrix.shape[0]):
             for idx,val in enumerate(matrix[x]):
                 if idx < 6:
                     if val in occ:
-                        dists.append(x-occ[val][-1])
+                        if x > 0:
+                            dists.append(x-occ[val][-1])
                         occ[val].append(x)
                     else:
                         occ[val] = [x]
@@ -396,11 +397,11 @@ def genNum(oddeven,templates,drawdist,tdraws):
     hPrediction = open(prediction,"w")
 
     means = np.empty((0,6))
+    # six number out of 1 to 49
     for combo in itertools.combinations(range(1,50),6):
         means = list(combo)
 
         draw = []
-
 
         sumdrawdist = 0
         for idx,val in enumerate(means):
