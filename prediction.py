@@ -436,7 +436,7 @@ def genNum(oddeven,templates,drawdist,tdraws):
 
 
         # generate probabilities 
-        totalProb = odeProb * startProb * templateProb * drawdistProb
+        totalProb = odeProb * ((startProb * templateProb)/2) * drawdistProb
         hPrediction.write(str(odeProb) + "\t")
         hPrediction.write(str(startProb) + "\t")
         hPrediction.write(str(templateProb) + "\t")
