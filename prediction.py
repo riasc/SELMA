@@ -30,6 +30,7 @@ class Numbers:
                 next(f) # exclude header
                 for line in f:
                     cells = line.split("\t")
+                    print(cells)
                     self.datum.append(cells[0]) # date
                     nrs = cells[1:8] # numbers
                     self.matrix = np.append(self.matrix,[nrs],axis=0).astype(int)
@@ -455,14 +456,13 @@ def genNum(oddeven,templates,drawdist,tdraws):
 def main():
     print("##### Lottery Prediction #####")
 
-
     nrs = Numbers("./numbers") # create numbers object
 
     # extract submatrix
     newDevice = nrs.datum.index("2001-01-03")
     submat = nrs.matrix[newDevice:nrs.matrix.shape[0]]
     subdat = nrs.datum[newDevice:nrs.matrix.shape[0]]
-    
+
     print("number of draws: " + str(submat.shape[0])) # list total number of draws
     print("from " + str(subdat[0]) + " to " + str(subdat[-1]))
 
