@@ -30,7 +30,6 @@ class Numbers:
                 next(f) # exclude header
                 for line in f:
                     cells = line.split("\t")
-                    print(cells)
                     self.datum.append(cells[0]) # date
                     nrs = cells[1:8] # numbers
                     self.matrix = np.append(self.matrix,[nrs],axis=0).astype(int)
@@ -459,7 +458,7 @@ def main():
     nrs = Numbers("./numbers") # create numbers object
 
     # extract submatrix
-    newDevice = nrs.datum.index("2001-01-03")
+    newDevice = nrs.datum.index("2000-01-01")
     submat = nrs.matrix[newDevice:nrs.matrix.shape[0]]
     subdat = nrs.datum[newDevice:nrs.matrix.shape[0]]
 
