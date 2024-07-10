@@ -12,6 +12,7 @@ from statistics import stdev
 from statistics import mean
 
 
+# class to model the numbers
 class Numbers:
     numbers = [] # files that contain the numbers
     matrix = np.empty((0,7)) 
@@ -34,6 +35,10 @@ class Numbers:
                     nrs = cells[1:8] # numbers
                     self.matrix = np.append(self.matrix,[nrs],axis=0).astype(int)
             f.close()
+
+
+
+### TODO: exclude the following or exclude Numbers
 
 
 class OddEven:
