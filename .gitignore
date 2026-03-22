@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Results (generated, not committed)
+results/
+
+# Generated files
+visualize.html

@@ -1,0 +1,103 @@
+# SELMA
+
+Statistical analysis and prediction tool for the German lottery "Lotto 6 aus 49". Processes ~70 years of historical draw data (1955–present) and applies structural pattern analysis to score combinations.
+
+## Setup
+
+```bash
+conda create -n selma python=3
+conda activate selma
+pip install -r requirements.txt
+```
+
+## Usage
+
+### 1. Collect statistics
+
+Compute occurrences and frequencies from historical data:
+
+```bash
+python -m selma collect                          # all data, frequencies from 2000-01-01
+python -m selma collect 2000-01-01 2025-12-31    # exclude 2026 (for backtesting)
+```
+
+Saves TSV files to `collect/` with per-feature occurrence and frequency data.
+
+### 2. Backtest
+
+Score actual draws to evaluate prediction quality:
+
+```bash
+python -m selma backtest                # score 2026 draws
+python -m selma backtest 2025-01-01     # score from a different date
+```
+
+Uses weights from `results/weights.tsv` if available, otherwise defaults. Saves per-draw scores to `results/backtest.tsv`.
+
+### 3. Optimize weights (optional)
+
+Find optimal feature weights by maximizing scores of known draws:
+
+```bash
+python -m selma optimize                # optimize against 2026 draws
+python -m selma optimize 2025-01-01     # optimize against a different period
+```
+
+Tests ~53K weight combinations (step 0.05) and saves the best to `results/weights.tsv`. Run backtest again afterwards to see the improvement.
+
+### 4. Predict
+
+Generate and score all combinations:
+
+```bash
+python -m selma predict
+```
+
+Filters ~14M combinations (skips those with zero probability in any feature), scores the rest with a weighted sum of normalized features, and saves to `results/predictions_sorted.tsv`.
+
+### 5. Visualize
+
+Generate an interactive HTML dashboard:
+
+```bash
+python -m selma visualize
+open visualize.html
+```
+
+## Features
+
+Each feature analyzes a structural property of lottery draws:
+
+| Feature | Module | Description |
+|---|---|---|
+| **Odd/Even** | `oddeven.py` | Ratio of odd to even numbers (e.g., 3/3, 4/2) |
+| **Templates** | `templates.py` | Decade group pattern (numbers mapped to groups 0-4) |
+| **Sum Range** | `sumrange.py` | Sum of 6 numbers (typical range: 120-180) |
+| **Consecutive** | `consecutive.py` | Adjacent number pairs (e.g., 12-13) |
+| **Recency** | `distance.py` | Combined gaps since each number last appeared |
+| **Hot/Cold** | `hotcold.py` | Per-number frequency across time windows |
+| **Profiles** | `profiles.py` | Per-number yearly trajectory patterns |
+
+## Scoring
+
+Combinations are scored using a weighted sum of normalized feature probabilities:
+
+```
+score = w1 * norm(oddeven) + w2 * norm(start) + w3 * norm(template)
+      + w4 * norm(sum) + w5 * norm(consec) + w6 * norm(recency)
+```
+
+Each probability is normalized to 0-1 by dividing by the maximum observed probability for that feature. Weights sum to 1.0 and can be optimized via `python -m selma optimize`.
+
+## Data Format
+
+Historical draws in `numbers/YYYY.txt` (tab-separated):
+
+```
+Date    1    2    3    4    5    6    SZ
+2024-01-03    14    25    28    32    36    49    4
+```
+
+- Columns 1-6: main numbers (1-49)
+- SZ: Superzahl / bonus number (0-9, or -1 for older draws)
+- Two draws per week (Wednesday and Saturday)
