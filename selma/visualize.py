@@ -252,6 +252,21 @@ SHARED_CSS = """\
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; display: flex; height: 100vh; background: #f5f5f5; }
 
+/* Hamburger button */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 12px; left: 12px;
+    z-index: 1000;
+    background: #1a1a2e;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 /* Sidebar */
 .sidebar {
     width: 260px;
@@ -260,6 +275,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; d
     padding: 20px;
     overflow-y: auto;
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+    z-index: 999;
 }
 .sidebar h1 { font-size: 20px; color: #fff; margin-bottom: 20px; }
 .sidebar h2 {
@@ -372,6 +389,44 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; d
     font-size: 12px; color: #888; border-bottom: 2px solid #ccc;
     font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
 }
+
+/* Sidebar overlay for mobile */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 998;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+
+    .sidebar {
+        position: fixed;
+        top: 0; left: 0; bottom: 0;
+        transform: translateX(-100%);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay.open { display: block; }
+
+    .main { padding: 60px 15px 15px; }
+
+    .controls { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+    .chart-container { height: 350px; padding: 10px; }
+
+    .number-grid { grid-template-columns: repeat(7, 1fr); }
+
+    .draw-ball { width: 28px; height: 28px; font-size: 11px; }
+    .draw-balls { gap: 3px; }
+    .draw-sz { width: 22px; height: 22px; font-size: 10px; margin-left: 6px; }
+    .draw-date { width: 85px; font-size: 12px; }
+    .draw-day { width: 25px; font-size: 11px; }
+    .draw-row { padding: 4px 8px; font-size: 12px; }
+    .draw-header { padding: 6px 8px; font-size: 10px; }
+}
 """
 
 
@@ -396,6 +451,18 @@ SIDEBAR_JS = """\
     const currentPage = document.body.getAttribute('data-page');
     const sidebar = document.getElementById('sidebar');
 
+    // Add hamburger button
+    const menuBtn = document.createElement('button');
+    menuBtn.className = 'menu-toggle';
+    menuBtn.innerHTML = '&#9776;';
+    document.body.appendChild(menuBtn);
+
+    // Add overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+
+    // Build sidebar content
     let html = '<h1>SELMA</h1>';
     html += '<h2>Draws</h2><div class="section">';
     pages.filter(p => p.section === 'draws').forEach(p => {
@@ -411,6 +478,17 @@ SIDEBAR_JS = """\
     html += '</div>';
 
     sidebar.innerHTML = html;
+
+    // Toggle sidebar on mobile
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+    });
+
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+    });
 })();
 """
 
