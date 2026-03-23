@@ -1,0 +1,37 @@
+name: Update Visualization
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'numbers/**'
+      - 'selma/**'
+      - 'collect/**'
+
+jobs:
+  visualize:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install numpy matplotlib
+
+      - name: Collect statistics
+        run: python -m selma collect
+
+      - name: Generate visualization
+        run: python -m selma visualize
+
+      - name: Commit and push docs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/ collect/
+          git diff --staged --quiet && echo "No changes" || git commit -m "Update visualization and collect data" && git push
