@@ -2,6 +2,8 @@
 
 Statistical analysis and prediction tool for the German lottery "Lotto 6 aus 49". Processes ~70 years of historical draw data (1955–present) and applies structural pattern analysis to score combinations.
 
+**Dashboard**: [riasc.github.io/SELMA](https://riasc.github.io/SELMA/)
+
 ## Setup
 
 ```bash
@@ -45,24 +47,41 @@ python -m selma optimize 2025-01-01     # optimize against a different period
 
 Tests ~53K weight combinations (step 0.05) and saves the best to `results/weights.tsv`. Run backtest again afterwards to see the improvement.
 
-### 4. Predict
+### 4. Train model (optional)
+
+Train a logistic regression model as an alternative to the weighted sum:
+
+```bash
+python -m selma train                   # train on data before 2026
+python -m selma backtest-model          # score 2026 draws with the model
+```
+
+Saves model to `results/model.pkl` and coefficients to `results/model_coefficients.tsv`.
+
+### 5. Predict
 
 Generate and score all combinations:
 
 ```bash
-python -m selma predict
+python -m selma predict                 # score with weighted sum
+python -m selma predict --model         # score with logistic regression model
 ```
 
-Filters ~14M combinations (skips those with zero probability in any feature), scores the rest with a weighted sum of normalized features, and saves to `results/predictions_sorted.tsv`.
+Filters ~14M combinations (skips those with zero probability in any feature), scores the rest, and saves to `results/numbers.txt`.
 
-### 5. Visualize
+### 6. Visualize
 
-Generate an interactive HTML dashboard:
+Generate the interactive HTML dashboard:
 
 ```bash
 python -m selma visualize
-open visualize.html
 ```
+
+Generates a multi-page static site in `docs/`, served via GitHub Pages at [riasc.github.io/SELMA](https://riasc.github.io/SELMA/).
+
+## Automation
+
+A GitHub Actions workflow automatically regenerates the visualization when `numbers/`, `selma/`, or `collect/` are updated on push. It runs `collect` and `visualize`, then commits the updated `docs/` and `collect/` back to the repo.
 
 ## Features
 
@@ -87,7 +106,7 @@ score = w1 * norm(oddeven) + w2 * norm(start) + w3 * norm(template)
       + w4 * norm(sum) + w5 * norm(consec) + w6 * norm(recency)
 ```
 
-Each probability is normalized to 0-1 by dividing by the maximum observed probability for that feature. Weights sum to 1.0 and can be optimized via `python -m selma optimize`.
+Each probability is normalized to 0-1 by dividing by the maximum observed probability for that feature. Weights sum to 1.0 and can be optimized via `python -m selma optimize`. Alternatively, a logistic regression model can be trained via `python -m selma train`.
 
 ## Data Format
 
