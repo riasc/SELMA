@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELMA - Draw History</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="drawhistory">
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main">
+            <h2>Draw History</h2>
+
+            <div class="controls">
+                <label>Year:</label>
+                <select id="draws-year"></select>
+                <label style="margin-left: 10px;">Highlight number:</label>
+                <input type="number" id="draws-highlight" min="1" max="49" placeholder="1-49" style="width: 70px;">
+                <label style="margin-left: 10px;">Day:</label>
+                <select id="draws-day">
+                    <option value="">All</option>
+                    <option value="Mi">Mi (Wed)</option>
+                    <option value="Sa">Sa (Sat)</option>
+                </select>
+                <label style="margin-left: 10px;">Color:</label>
+                <select id="draws-color">
+                    <option value="group" selected>Decade group</option>
+                    <option value="oddeven">Odd / Even</option>
+                </select>
+            </div>
+
+            <div id="draws-container" style="margin-top: 15px;"></div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+    // build date->recency lookup from distanceScores
+    const recencyByDate = {};
+    distanceScores.forEach(d => {
+        if (d.score !== null) recencyByDate[d.date] = d.score;
+    });
+
+    const yearSelect = document.getElementById('draws-year');
+    const drawYears = [...new Set(drawsData.map(d => d.date.split('-')[0]))].sort().reverse();
+    drawYears.forEach(y => yearSelect.add(new Option(y, y)));
+    yearSelect.value = drawYears[0];
+
+    yearSelect.addEventListener('change', renderDraws);
+    document.getElementById('draws-highlight').addEventListener('input', renderDraws);
+    document.getElementById('draws-day').addEventListener('change', renderDraws);
+    document.getElementById('draws-color').addEventListener('change', renderDraws);
+
+    function getDecadeClass(n) {
+        if (n <= 9) return 'g0';
+        if (n <= 19) return 'g1';
+        if (n <= 29) return 'g2';
+        if (n <= 39) return 'g3';
+        return 'g4';
+    }
+
+    function getBallClass(n, colorMode) {
+        if (colorMode === 'oddeven') {
+            return n % 2 === 1 ? 'odd' : 'even';
+        }
+        return getDecadeClass(n);
+    }
+
+    function renderDraws() {
+        const year = document.getElementById('draws-year').value;
+        const highlightNum = parseInt(document.getElementById('draws-highlight').value) || 0;
+        const dayFilter = document.getElementById('draws-day').value;
+        const colorMode = document.getElementById('draws-color').value;
+
+        let filtered = drawsData.filter(d => d.date.startsWith(year));
+        if (dayFilter) {
+            filtered = filtered.filter(d => d.day === dayFilter);
+        }
+        // show newest first
+        filtered = filtered.slice().reverse();
+
+        const container = document.getElementById('draws-container');
+        let html = '';
+
+        // legend
+        html += '<div style="padding: 8px 12px; font-size: 11px; color: #888; border-bottom: 1px solid #eee;">';
+        if (colorMode === 'group') {
+            html += '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#e6194b;margin-right:2px;vertical-align:middle;"></span> 1-9 ';
+            html += '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#3cb44b;margin-right:2px;vertical-align:middle;margin-left:8px;"></span> 10-19 ';
+            html += '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#4363d8;margin-right:2px;vertical-align:middle;margin-left:8px;"></span> 20-29 ';
+            html += '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f58231;margin-right:2px;vertical-align:middle;margin-left:8px;"></span> 30-39 ';
+            html += '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#911eb4;margin-right:2px;vertical-align:middle;margin-left:8px;"></span> 40-49';
+        } else {
+            html += '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#4363d8;margin-right:2px;vertical-align:middle;"></span> Odd ';
+            html += '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#e6194b;margin-right:2px;vertical-align:middle;margin-left:8px;"></span> Even';
+        }
+        html += '<span style="margin-left: 20px;">| Sum = sum of 6 numbers | Rec = recency score (sum of gaps since each number last appeared)</span>';
+        html += '</div>';
+
+        // header
+        html += '<div class="draw-header">';
+        html += '<span class="draw-date">Date</span>';
+        html += '<span class="draw-day">Day</span>';
+        html += '<div class="draw-balls" style="pointer-events:none;">';
+        for (let i = 1; i <= 6; i++) {
+            html += '<div style="width:36px;text-align:center;font-size:11px;">Z' + i + '</div>';
+        }
+        html += '</div>';
+        html += '<div style="width:28px;text-align:center;font-size:11px;margin-left:12px;">SZ</div>';
+        html += '<span style="margin-left:12px;min-width:35px;text-align:right;font-size:11px;">Sum</span>';
+        html += '<span style="margin-left:12px;min-width:35px;text-align:right;font-size:11px;">Rec</span>';
+        html += '</div>';
+
+        filtered.forEach(draw => {
+            html += '<div class="draw-row">';
+            html += '<span class="draw-date">' + draw.date + '</span>';
+            html += '<span class="draw-day">' + draw.day + '</span>';
+            html += '<div class="draw-balls">';
+            draw.numbers.forEach(n => {
+                const hl = (highlightNum > 0 && n === highlightNum) ? ' highlight' : '';
+                html += '<div class="draw-ball ' + getBallClass(n, colorMode) + hl + '">' + n + '</div>';
+            });
+            html += '</div>';
+            const szVal = draw.sz >= 0 ? draw.sz : '-';
+            html += '<div class="draw-sz">' + szVal + '</div>';
+            const comboSum = draw.numbers.reduce((a, b) => a + b, 0);
+            html += '<span style="margin-left: 12px; font-size: 13px; color: #888; min-width: 35px; text-align: right;">' + comboSum + '</span>';
+            const rec = recencyByDate[draw.date];
+            html += '<span style="margin-left: 12px; font-size: 13px; color: #888; min-width: 35px; text-align: right;">' + (rec !== undefined ? rec : '-') + '</span>';
+            html += '</div>';
+        });
+
+        if (filtered.length === 0) {
+            html += '<div style="padding: 20px; color: #888;">No draws found</div>';
+        }
+
+        container.innerHTML = html;
+    }
+
+    renderDraws();
+    </script>
+</body>
+</html>

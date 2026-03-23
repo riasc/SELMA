@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELMA - Hot / Cold</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="hotcold">
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main">
+            <h2>Number Frequency</h2>
+            <p style="font-size: 13px; color: #888; margin-bottom: 15px;">
+                Per-number frequency across all draws and recent windows. This is descriptive, not predictive &mdash; past frequency does not indicate future likelihood.
+            </p>
+
+            <div class="controls">
+                <label>Sort by:</label>
+                <select id="hotcold-sort">
+                    <option value="number">Number (1-49)</option>
+                    <option value="total" selected>Total count</option>
+                    <option value="rate_20">Last 20 draws</option>
+                    <option value="rate_50">Last 50 draws</option>
+                    <option value="rate_100">Last 100 draws</option>
+                    <option value="deviation">Deviation (last 50 vs overall)</option>
+                </select>
+            </div>
+
+            <div class="chart-container" style="height: 600px;">
+                <canvas id="hotcold-freq-chart"></canvas>
+            </div>
+
+            <div class="chart-container" style="height: 500px;">
+                <canvas id="hotcold-compare-chart"></canvas>
+            </div>
+
+            <div class="chart-container" style="height: 400px;">
+                <canvas id="hotcold-deviation-chart"></canvas>
+            </div>
+
+            <div id="hotcold-heatmap-container" style="background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; overflow-x: auto;">
+                <h3 style="font-size: 16px; margin-bottom: 5px; color: #1a1a2e;">Yearly Frequency Heatmap</h3>
+                <p style="font-size: 12px; color: #888; margin-bottom: 10px;">Green = drawn often, Red = drawn rarely</p>
+                <div id="hotcold-heatmap"></div>
+            </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+    let hotcoldFreqChart = null;
+    let hotcoldCompareChart = null;
+    let hotcoldDeviationChart = null;
+
+    document.getElementById('hotcold-sort').addEventListener('change', updateHotColdCharts);
+
+    function getSortedNumbers(sortBy) {
+        const nums = Object.keys(hotcoldFreq).map(Number);
+        if (sortBy === 'number') return nums.sort((a, b) => a - b);
+        if (sortBy === 'total') return nums.sort((a, b) => hotcoldFreq[b].total - hotcoldFreq[a].total);
+        if (sortBy === 'rate_20') return nums.sort((a, b) => hotcoldFreq[b].rate_20 - hotcoldFreq[a].rate_20);
+        if (sortBy === 'rate_50') return nums.sort((a, b) => hotcoldFreq[b].rate_50 - hotcoldFreq[a].rate_50);
+        if (sortBy === 'rate_100') return nums.sort((a, b) => hotcoldFreq[b].rate_100 - hotcoldFreq[a].rate_100);
+        if (sortBy === 'deviation') {
+            return nums.sort((a, b) => {
+                const devA = hotcoldFreq[a].rate_all > 0 ? hotcoldFreq[a].rate_50 / hotcoldFreq[a].rate_all : 0;
+                const devB = hotcoldFreq[b].rate_all > 0 ? hotcoldFreq[b].rate_50 / hotcoldFreq[b].rate_all : 0;
+                return devB - devA;
+            });
+        }
+        return nums;
+    }
+
+    function updateHotColdCharts() {
+        const sortBy = document.getElementById('hotcold-sort').value;
+        const sorted = getSortedNumbers(sortBy);
+
+        // expected rate (uniform: 6 numbers from 49)
+        const expectedRate = 6 / 49;
+
+        // Chart 1: Overall frequency bar
+        const labels = sorted.map(n => 'Nr ' + n);
+        const totals = sorted.map(n => hotcoldFreq[n].total);
+
+        const freqColors = sorted.map(n => {
+            const t = hotcoldFreq[n].trend;
+            if (t === 'hot') return '#e6194b';
+            if (t === 'cold') return '#4363d8';
+            return '#3cb44b';
+        });
+
+        if (hotcoldFreqChart) hotcoldFreqChart.destroy();
+        hotcoldFreqChart = new Chart(document.getElementById('hotcold-freq-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Total draws',
+                    data: totals,
+                    backgroundColor: freqColors,
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => {
+                                const n = sorted[ctx.dataIndex];
+                                const d = hotcoldFreq[n];
+                                return [
+                                    'Total: ' + d.total,
+                                    'Rate: ' + (d.rate_all * 100).toFixed(1) + '%',
+                                    'Trend: ' + d.trend
+                                ];
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: ['Overall Frequency (all numbers)',
+                               'Red = hot (last 50 > 115% of overall), Blue = cold (< 85%), Green = neutral'],
+                        font: { size: 14 },
+                    },
+                },
+                scales: {
+                    x: { ticks: { maxRotation: 90, font: { size: 10 } } },
+                    y: { title: { display: true, text: 'Total count' }, beginAtZero: true },
+                }
+            }
+        });
+
+        // Chart 2: Rate comparison (overall vs last 50)
+        const ratesAll = sorted.map(n => (hotcoldFreq[n].rate_all * 100));
+        const rates50 = sorted.map(n => (hotcoldFreq[n].rate_50 * 100));
+        const rates20 = sorted.map(n => (hotcoldFreq[n].rate_20 * 100));
+
+        if (hotcoldCompareChart) hotcoldCompareChart.destroy();
+        hotcoldCompareChart = new Chart(document.getElementById('hotcold-compare-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Overall rate %',
+                        data: ratesAll,
+                        backgroundColor: '#3cb44b88',
+                    },
+                    {
+                        label: 'Last 50 draws %',
+                        data: rates50,
+                        backgroundColor: '#4363d888',
+                    },
+                    {
+                        label: 'Last 20 draws %',
+                        data: rates20,
+                        backgroundColor: '#e6194b88',
+                    },
+                    {
+                        label: 'Expected (' + (expectedRate * 100).toFixed(1) + '%)',
+                        data: Array(sorted.length).fill(expectedRate * 100),
+                        type: 'line',
+                        borderColor: '#88888866',
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        fill: false,
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top', labels: { font: { size: 12 } } },
+                    title: {
+                        display: true,
+                        text: 'Rate Comparison: Overall vs Recent Windows',
+                        font: { size: 16 },
+                    },
+                },
+                scales: {
+                    x: { ticks: { maxRotation: 90, font: { size: 10 } } },
+                    y: { title: { display: true, text: 'Appearance rate %' }, beginAtZero: true },
+                }
+            }
+        });
+
+        // Chart 3: Deviation (last 50 rate / overall rate)
+        const deviations = sorted.map(n => {
+            const d = hotcoldFreq[n];
+            return d.rate_all > 0 ? ((d.rate_50 / d.rate_all - 1) * 100) : 0;
+        });
+
+        const devColors = deviations.map(d => {
+            if (d > 15) return '#e6194b';
+            if (d < -15) return '#4363d8';
+            return '#3cb44b';
+        });
+
+        if (hotcoldDeviationChart) hotcoldDeviationChart.destroy();
+        hotcoldDeviationChart = new Chart(document.getElementById('hotcold-deviation-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Deviation %',
+                        data: deviations,
+                        backgroundColor: devColors,
+                    },
+                    {
+                        label: 'Baseline (0%)',
+                        data: Array(sorted.length).fill(0),
+                        type: 'line',
+                        borderColor: '#888888',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: false,
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => {
+                                if (ctx.datasetIndex === 1) return '';
+                                const n = sorted[ctx.dataIndex];
+                                const d = hotcoldFreq[n];
+                                return [
+                                    'Deviation: ' + ctx.raw.toFixed(1) + '%',
+                                    'Overall: ' + (d.rate_all * 100).toFixed(1) + '%',
+                                    'Last 50: ' + (d.rate_50 * 100).toFixed(1) + '%'
+                                ];
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: ['Deviation: Last 50 Draws vs Overall Rate',
+                               'Red = hot (>+15%), Blue = cold (<-15%), Green = neutral'],
+                        font: { size: 14 },
+                    },
+                },
+                scales: {
+                    x: { ticks: { maxRotation: 90, font: { size: 10 } } },
+                    y: { title: { display: true, text: 'Deviation %' } },
+                }
+            }
+        });
+    }
+
+    // --- Yearly heatmap (HTML table) ---
+    function updateHeatmap() {
+        const nums = Array.from({length: 49}, (_, i) => i + 1);
+
+        // find min/max for color scale
+        let minVal = Infinity, maxVal = 0;
+        nums.forEach(n => {
+            yearlyYears.forEach(y => {
+                const v = yearlyData[n] ? (yearlyData[n][y] || 0) : 0;
+                if (v < minVal) minVal = v;
+                if (v > maxVal) maxVal = v;
+            });
+        });
+
+        let html = '<table style="border-collapse: collapse; font-size: 11px; width: 100%;">';
+        // header
+        html += '<tr><th style="padding: 3px 6px; position: sticky; left: 0; background: #fff;">Nr</th>';
+        yearlyYears.forEach(y => {
+            html += '<th style="padding: 3px 4px; writing-mode: vertical-lr; text-orientation: mixed; height: 50px;">' + y + '</th>';
+        });
+        html += '</tr>';
+
+        // rows
+        nums.forEach(n => {
+            html += '<tr><td style="padding: 2px 6px; font-weight: bold; position: sticky; left: 0; background: #fff;">' + n + '</td>';
+            yearlyYears.forEach(y => {
+                const v = yearlyData[n] ? (yearlyData[n][y] || 0) : 0;
+                const ratio = maxVal > minVal ? (v - minVal) / (maxVal - minVal) : 0;
+                const r = Math.round(220 - 170 * ratio);
+                const g = Math.round(80 + 140 * ratio);
+                const b = Math.round(80);
+                html += '<td style="padding: 2px; text-align: center; background: rgb(' + r + ',' + g + ',' + b + '); color: ' + (ratio > 0.5 ? '#fff' : '#333') + ';" title="Nr ' + n + ' in ' + y + ': ' + v + 'x">' + v + '</td>';
+            });
+            html += '</tr>';
+        });
+        html += '</table>';
+
+        document.getElementById('hotcold-heatmap').innerHTML = html;
+    }
+
+    updateHotColdCharts();
+    updateHeatmap();
+    </script>
+</body>
+</html>

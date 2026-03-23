@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELMA - Consecutive</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="consecutive">
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main">
+            <h2>Consecutive Pairs</h2>
+            <p style="font-size: 13px; color: #888; margin-bottom: 15px;">
+                Count of consecutive number pairs per draw (e.g. 12-13, 25-26). Most draws have 0 or 1 consecutive pair.
+            </p>
+
+            <div class="controls">
+                <label>From:</label>
+                <select id="consec-from-year"></select>
+                <label>To:</label>
+                <select id="consec-to-year"></select>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="consec-freq-chart"></canvas>
+            </div>
+
+            <div class="chart-container" style="height: 500px;">
+                <canvas id="consec-pairs-chart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="consec-decade-chart"></canvas>
+            </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+    let consecFreqChart = null;
+    let consecPairsChart = null;
+    let consecDecadeChart = null;
+
+    const fromSelect = document.getElementById('consec-from-year');
+    const toSelect = document.getElementById('consec-to-year');
+    const cYears = [...new Set(consecutiveOcc.map(d => d.date.split('-')[0]))].sort();
+    cYears.forEach(y => {
+        fromSelect.add(new Option(y, y));
+        toSelect.add(new Option(y, y));
+    });
+    fromSelect.value = cYears[0];
+    toSelect.value = cYears[cYears.length - 1];
+
+    fromSelect.addEventListener('change', updateConsecCharts);
+    toSelect.addEventListener('change', updateConsecCharts);
+
+    function updateConsecCharts() {
+        updateConsecFreqChart();
+        updateConsecPairsChart();
+        updateConsecDecadeChart();
+    }
+
+    function updateConsecFreqChart() {
+        const fromYear = document.getElementById('consec-from-year').value;
+        const toYear = document.getElementById('consec-to-year').value;
+
+        const filtered = consecutiveOcc.filter(d => {
+            const y = d.date.split('-')[0];
+            return y >= fromYear && y <= toYear;
+        });
+
+        const total = filtered.length;
+        const pairCounts = {};
+        filtered.forEach(d => {
+            pairCounts[d.pairs] = (pairCounts[d.pairs] || 0) + 1;
+        });
+
+        const keys = Object.keys(pairCounts).map(Number).sort();
+        const labels = keys.map(k => k + ' pair' + (k !== 1 ? 's' : ''));
+        const counts = keys.map(k => pairCounts[k]);
+        const pcts = counts.map(c => ((c / total) * 100).toFixed(1));
+
+        const barColors = keys.map(k => {
+            if (k === 0) return '#3cb44b';
+            if (k === 1) return '#4363d8';
+            if (k === 2) return '#f58231';
+            return '#e6194b';
+        });
+
+        const titleText = 'Consecutive Pairs Distribution (' + fromYear + ' - ' + toYear + ', ' + total + ' draws)';
+
+        if (consecFreqChart) consecFreqChart.destroy();
+        consecFreqChart = new Chart(document.getElementById('consec-freq-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Count',
+                    data: counts,
+                    backgroundColor: barColors,
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => 'Count: ' + ctx.raw + ' (' + pcts[ctx.dataIndex] + '%)'
+                        }
+                    },
+                    title: { display: true, text: titleText, font: { size: 16 } },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Consecutive pairs' } },
+                    y: { title: { display: true, text: 'Count' }, beginAtZero: true },
+                }
+            }
+        });
+    }
+
+    function getConsecFiltered() {
+        const fromYear = document.getElementById('consec-from-year').value;
+        const toYear = document.getElementById('consec-to-year').value;
+        return consecutiveOcc.filter(d => {
+            const y = d.date.split('-')[0];
+            return y >= fromYear && y <= toYear;
+        });
+    }
+
+    function updateConsecPairsChart() {
+        const filtered = getConsecFiltered();
+        const fromYear = document.getElementById('consec-from-year').value;
+        const toYear = document.getElementById('consec-to-year').value;
+
+        // count each specific pair
+        const pairCounts = {};
+        filtered.forEach(d => {
+            d.consec_pairs.forEach(p => {
+                pairCounts[p] = (pairCounts[p] || 0) + 1;
+            });
+        });
+
+        const sorted = Object.entries(pairCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 25);
+
+        const labels = sorted.map(([k, _]) => k);
+        const counts = sorted.map(([_, c]) => c);
+        const total = filtered.filter(d => d.pairs > 0).length;
+
+        // color by decade of the lower number
+        const barColors = sorted.map(([k, _]) => {
+            const lower = parseInt(k.split('-')[0]);
+            if (lower <= 9) return '#e6194b';
+            if (lower <= 19) return '#3cb44b';
+            if (lower <= 29) return '#4363d8';
+            if (lower <= 39) return '#f58231';
+            return '#911eb4';
+        });
+
+        if (consecPairsChart) consecPairsChart.destroy();
+        consecPairsChart = new Chart(document.getElementById('consec-pairs-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Count',
+                    data: counts,
+                    backgroundColor: barColors,
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => 'Appeared together ' + ctx.raw + ' times'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: ['Top 25 Most Common Consecutive Pairs (' + fromYear + ' - ' + toYear + ')',
+                               'Color by decade: red=1-9, green=10-19, blue=20-29, orange=30-39, purple=40-49'],
+                        font: { size: 14 },
+                    },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Count' }, beginAtZero: true },
+                    y: { ticks: { font: { size: 12 } } },
+                }
+            }
+        });
+    }
+
+    function updateConsecDecadeChart() {
+        const filtered = getConsecFiltered();
+        const fromYear = document.getElementById('consec-from-year').value;
+        const toYear = document.getElementById('consec-to-year').value;
+
+        // count pairs by decade group of the lower number
+        const decadeCounts = [0, 0, 0, 0, 0];
+        filtered.forEach(d => {
+            d.consec_pairs.forEach(p => {
+                const lower = parseInt(p.split('-')[0]);
+                if (lower <= 9) decadeCounts[0]++;
+                else if (lower <= 19) decadeCounts[1]++;
+                else if (lower <= 29) decadeCounts[2]++;
+                else if (lower <= 39) decadeCounts[3]++;
+                else decadeCounts[4]++;
+            });
+        });
+
+        const total = decadeCounts.reduce((a, b) => a + b, 0);
+        const pcts = decadeCounts.map(c => total > 0 ? ((c / total) * 100).toFixed(1) : '0.0');
+
+        if (consecDecadeChart) consecDecadeChart.destroy();
+        consecDecadeChart = new Chart(document.getElementById('consec-decade-chart'), {
+            type: 'bar',
+            data: {
+                labels: ['1-9', '10-19', '20-29', '30-39', '40-49'],
+                datasets: [{
+                    label: 'Count',
+                    data: decadeCounts,
+                    backgroundColor: ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4'],
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => 'Count: ' + ctx.raw + ' (' + pcts[ctx.dataIndex] + '%)'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Consecutive Pairs by Decade Group (' + fromYear + ' - ' + toYear + ', ' + total + ' total pairs)',
+                        font: { size: 16 },
+                    },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Decade group (of lower number)' } },
+                    y: { title: { display: true, text: 'Count' }, beginAtZero: true },
+                }
+            }
+        });
+    }
+
+    updateConsecCharts();
+    </script>
+</body>
+</html>

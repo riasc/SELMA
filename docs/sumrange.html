@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELMA - Sum Range</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="sumrange">
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main">
+            <h2>Sum Range</h2>
+            <p style="font-size: 13px; color: #888; margin-bottom: 15px;">
+                Sum of the 6 drawn numbers per draw. Theoretical range: 21 (1+2+3+4+5+6) to 279 (44+45+46+47+48+49). Most draws cluster around 140-160.
+            </p>
+
+            <div class="controls">
+                <label>From:</label>
+                <select id="sumrange-from-year"></select>
+                <label>To:</label>
+                <select id="sumrange-to-year"></select>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="sumrange-dist-chart"></canvas>
+            </div>
+
+            <div class="controls">
+                <label>Timeline - show last:</label>
+                <select id="sumrange-range">
+                    <option value="50">50 draws</option>
+                    <option value="100">100 draws</option>
+                    <option value="200">200 draws</option>
+                    <option value="500">500 draws</option>
+                    <option value="0" selected>All draws</option>
+                </select>
+            </div>
+
+            <div class="chart-container" style="height: 400px;">
+                <canvas id="sumrange-timeline-chart"></canvas>
+            </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+    let sumrangeDistChart = null;
+    let sumrangeTimelineChart = null;
+
+    const fromSelect = document.getElementById('sumrange-from-year');
+    const toSelect = document.getElementById('sumrange-to-year');
+    const srYears = [...new Set(sumrangeOcc.map(d => d.date.split('-')[0]))].sort();
+    srYears.forEach(y => {
+        fromSelect.add(new Option(y, y));
+        toSelect.add(new Option(y, y));
+    });
+    fromSelect.value = srYears[0];
+    toSelect.value = srYears[srYears.length - 1];
+
+    fromSelect.addEventListener('change', updateSumRangeDist);
+    toSelect.addEventListener('change', updateSumRangeDist);
+    document.getElementById('sumrange-range').addEventListener('change', updateSumRangeTimeline);
+
+    function updateSumRangeDist() {
+        const fromYear = document.getElementById('sumrange-from-year').value;
+        const toYear = document.getElementById('sumrange-to-year').value;
+
+        const filtered = sumrangeOcc.filter(d => {
+            const y = d.date.split('-')[0];
+            return y >= fromYear && y <= toYear;
+        });
+
+        const total = filtered.length;
+
+        // bin sums into ranges of 10
+        const bins = {};
+        filtered.forEach(d => {
+            const bin = Math.floor(d.sum / 10) * 10;
+            bins[bin] = (bins[bin] || 0) + 1;
+        });
+
+        const binKeys = Object.keys(bins).map(Number).sort((a, b) => a - b);
+        const labels = binKeys.map(k => k + '-' + (k + 9));
+        const counts = binKeys.map(k => bins[k]);
+        const pcts = counts.map(c => ((c / total) * 100).toFixed(1));
+
+        // compute mean
+        const mean = filtered.reduce((acc, d) => acc + d.sum, 0) / total;
+
+        // color: highlight the bins around the mean
+        const barColors = binKeys.map(k => {
+            const mid = k + 5;
+            const dist = Math.abs(mid - mean);
+            if (dist <= 15) return '#3cb44b';
+            if (dist <= 35) return '#4363d8';
+            return '#e6194b88';
+        });
+
+        const titleText = 'Sum Distribution (' + fromYear + ' - ' + toYear + ', ' + total + ' draws, mean: ' + mean.toFixed(1) + ')';
+
+        if (sumrangeDistChart) sumrangeDistChart.destroy();
+        sumrangeDistChart = new Chart(document.getElementById('sumrange-dist-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Count',
+                    data: counts,
+                    backgroundColor: barColors,
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => 'Count: ' + ctx.raw + ' (' + pcts[ctx.dataIndex] + '%)'
+                        }
+                    },
+                    title: { display: true, text: titleText, font: { size: 16 } },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Sum range' } },
+                    y: { title: { display: true, text: 'Count' }, beginAtZero: true },
+                }
+            }
+        });
+    }
+
+    function updateSumRangeTimeline() {
+        const range = parseInt(document.getElementById('sumrange-range').value);
+        let data = sumrangeOcc;
+        if (range > 0) {
+            data = data.slice(-range);
+        }
+
+        const labels = data.map(d => d.date);
+        const sums = data.map(d => d.sum);
+
+        // rolling average
+        const window = 20;
+        const rolling = sums.map((_, i) => {
+            const start = Math.max(0, i - window + 1);
+            const slice = sums.slice(start, i + 1);
+            return slice.reduce((a, b) => a + b, 0) / slice.length;
+        });
+
+        // overall mean
+        const mean = sums.reduce((a, b) => a + b, 0) / sums.length;
+
+        if (sumrangeTimelineChart) sumrangeTimelineChart.destroy();
+        sumrangeTimelineChart = new Chart(document.getElementById('sumrange-timeline-chart'), {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Sum per draw',
+                        data: sums,
+                        borderColor: '#3cb44b44',
+                        backgroundColor: '#3cb44b22',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: true,
+                    },
+                    {
+                        label: 'Rolling avg (20 draws)',
+                        data: rolling,
+                        borderColor: '#e6194b',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                    },
+                    {
+                        label: 'Mean (' + mean.toFixed(1) + ')',
+                        data: Array(data.length).fill(mean),
+                        borderColor: '#88888866',
+                        backgroundColor: 'transparent',
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', labels: { font: { size: 12 } } },
+                    title: { display: true, text: 'Sum per Draw Over Time', font: { size: 16 } },
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Draw date' },
+                        ticks: { maxTicksLimit: 15, maxRotation: 45 },
+                    },
+                    y: {
+                        title: { display: true, text: 'Sum' },
+                    }
+                }
+            }
+        });
+    }
+
+    updateSumRangeDist();
+    updateSumRangeTimeline();
+    </script>
+</body>
+</html>

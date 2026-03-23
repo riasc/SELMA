@@ -1,0 +1,123 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; display: flex; height: 100vh; background: #f5f5f5; }
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    padding: 20px;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+.sidebar h1 { font-size: 20px; color: #fff; margin-bottom: 20px; }
+.sidebar h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    margin: 20px 0 10px;
+}
+.sidebar .section { margin-bottom: 15px; }
+.sidebar .section-item {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    font-size: 14px;
+    color: #e0e0e0;
+    text-decoration: none;
+}
+.sidebar .section-item:hover { background: #16213e; }
+.sidebar .section-item.active { background: #0f3460; color: #fff; }
+
+/* Main content */
+.main { flex: 1; padding: 30px; overflow-y: auto; }
+.main h2 { font-size: 22px; margin-bottom: 20px; color: #1a1a2e; }
+
+/* Controls */
+.controls { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+.controls label { font-size: 14px; color: #555; }
+.controls select, .controls input {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Number grid */
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 4px;
+    margin-bottom: 20px;
+    max-width: 500px;
+}
+.number-btn {
+    padding: 8px 4px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    background: #fff;
+    user-select: none;
+}
+.number-btn:hover { background: #e8e8e8; }
+.number-btn.selected { background: #0f3460; color: #fff; border-color: #0f3460; }
+
+/* Chart */
+.chart-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: relative;
+    height: 500px;
+    margin-bottom: 20px;
+}
+
+/* Draw history */
+.draw-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+.draw-row:hover { background: #f0f4ff; }
+.draw-date { width: 110px; font-weight: 500; color: #333; }
+.draw-day { width: 35px; color: #888; font-size: 12px; }
+.draw-balls { display: flex; gap: 6px; }
+.draw-ball {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 14px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.draw-ball.g0 { background: #e6194b; }
+.draw-ball.g1 { background: #3cb44b; }
+.draw-ball.g2 { background: #4363d8; }
+.draw-ball.g3 { background: #f58231; }
+.draw-ball.g4 { background: #911eb4; }
+.draw-ball.odd { background: #4363d8; }
+.draw-ball.even { background: #e6194b; }
+.draw-ball.highlight {
+    box-shadow: 0 0 0 3px #000, 0 0 0 5px #ffd700;
+}
+.draw-sz {
+    margin-left: 12px;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 12px;
+    background: #ddd; color: #333;
+    border: 2px solid #bbb;
+}
+.draw-header {
+    display: flex; align-items: center; padding: 8px 12px;
+    font-size: 12px; color: #888; border-bottom: 2px solid #ccc;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}

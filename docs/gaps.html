@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELMA - Gaps</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="gaps">
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main">
+            <h2>Number Gaps</h2>
+            <p style="font-size: 13px; color: #888; margin-bottom: 15px;">
+                Gap = number of draws since a number last appeared. Large gaps mean the number hasn't been drawn recently.
+            </p>
+
+            <div class="controls">
+                <label>Sort by:</label>
+                <select id="gaps-sort">
+                    <option value="current" selected>Current gap (largest first)</option>
+                    <option value="number">Number (1-49)</option>
+                    <option value="avg">Average gap</option>
+                    <option value="max">Max gap</option>
+                </select>
+            </div>
+
+            <div class="chart-container" style="height: 600px;">
+                <canvas id="gaps-current-chart"></canvas>
+            </div>
+
+            <div class="chart-container" style="height: 500px;">
+                <canvas id="gaps-comparison-chart"></canvas>
+            </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+    let gapsCurrentChart = null;
+    let gapsComparisonChart = null;
+
+    document.getElementById('gaps-sort').addEventListener('change', updateGapsCharts);
+
+    function getGapsSorted(sortBy) {
+        const nums = Object.keys(gapData).map(Number);
+        if (sortBy === 'number') return nums.sort((a, b) => a - b);
+        if (sortBy === 'current') return nums.sort((a, b) => gapData[b].current_gap - gapData[a].current_gap);
+        if (sortBy === 'avg') return nums.sort((a, b) => gapData[b].avg_gap - gapData[a].avg_gap);
+        if (sortBy === 'max') return nums.sort((a, b) => gapData[b].max_gap - gapData[a].max_gap);
+        return nums;
+    }
+
+    function updateGapsCharts() {
+        const sortBy = document.getElementById('gaps-sort').value;
+        const sorted = getGapsSorted(sortBy);
+        const labels = sorted.map(n => 'Nr ' + n);
+
+        // current gap bar chart
+        const currentGaps = sorted.map(n => gapData[n].current_gap);
+        const avgGaps = sorted.map(n => gapData[n].avg_gap);
+
+        // color: red if current gap > 1.5x average, green if below average
+        const barColors = sorted.map(n => {
+            const g = gapData[n];
+            if (g.avg_gap > 0) {
+                const ratio = g.current_gap / g.avg_gap;
+                if (ratio > 1.5) return '#e6194b';
+                if (ratio > 1.0) return '#f58231';
+                return '#3cb44b';
+            }
+            return '#888888';
+        });
+
+        if (gapsCurrentChart) gapsCurrentChart.destroy();
+        gapsCurrentChart = new Chart(document.getElementById('gaps-current-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Current gap',
+                        data: currentGaps,
+                        backgroundColor: barColors,
+                    },
+                    {
+                        label: 'Average gap',
+                        data: avgGaps,
+                        type: 'line',
+                        borderColor: '#4363d8',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#4363d8',
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: {
+                        display: true,
+                        text: ['Current Gap vs Average Gap (draws since last appearance)',
+                               'Red = well above average, Orange = above, Green = at or below average'],
+                        font: { size: 14 },
+                    },
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: (ctx) => {
+                                if (ctx.datasetIndex > 0) return '';
+                                const n = sorted[ctx.dataIndex];
+                                const g = gapData[n];
+                                return 'Avg: ' + g.avg_gap.toFixed(1) + ', Max: ' + g.max_gap + ', Total: ' + g.total_appearances;
+                            }
+                        }
+                    },
+                },
+                scales: {
+                    x: { ticks: { maxRotation: 90, font: { size: 10 } } },
+                    y: { title: { display: true, text: 'Draws since last appearance' }, beginAtZero: true },
+                }
+            }
+        });
+
+        // comparison: current gap, avg gap, max gap side by side
+        const maxGaps = sorted.map(n => gapData[n].max_gap);
+
+        if (gapsComparisonChart) gapsComparisonChart.destroy();
+        gapsComparisonChart = new Chart(document.getElementById('gaps-comparison-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Current',
+                        data: currentGaps,
+                        backgroundColor: '#e6194b88',
+                    },
+                    {
+                        label: 'Average',
+                        data: avgGaps,
+                        backgroundColor: '#3cb44b88',
+                    },
+                    {
+                        label: 'Maximum',
+                        data: maxGaps,
+                        backgroundColor: '#4363d844',
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: {
+                        display: true,
+                        text: 'Gap Comparison: Current vs Average vs Maximum',
+                        font: { size: 16 },
+                    },
+                },
+                scales: {
+                    x: { ticks: { maxRotation: 90, font: { size: 10 } } },
+                    y: { title: { display: true, text: 'Gap (draws)' }, beginAtZero: true },
+                }
+            }
+        });
+    }
+
+    updateGapsCharts();
+    </script>
+</body>
+</html>

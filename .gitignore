@@ -7,6 +7,3 @@ __pycache__/
 
 # Results (generated, not committed)
 results/
-
-# Generated files
-visualize.html

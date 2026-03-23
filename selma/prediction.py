@@ -299,14 +299,26 @@ def optimize_weights(test_from="2026-01-01"):
     return best_weights
 
 
-def predict():
-    """Load pre-computed data and weights, filter and score all combinations."""
+def predict(use_model=False):
+    """Load pre-computed data, filter and score all combinations."""
     print("##### Lottery Prediction #####")
 
     ode, tmpls, dist, sr, con, tdraws, maxes = _load_stats()
-    weights = _load_weights()
+
+    model = None
+    scaler = None
+    weights = None
+
+    if use_model:
+        from selma.model import load_model
+        model, scaler, _ = load_model()
+        print("Scoring with logistic regression model")
+    else:
+        weights = _load_weights()
+        print("Scoring with weighted sum")
+        print("Weights: " + "  ".join(f"{l}={w:.2f}" for l, w in zip(WEIGHT_LABELS, weights)))
+
     print("draws in frequency data: " + str(tdraws))
-    print("Weights: " + "  ".join(f"{l}={w:.2f}" for l, w in zip(WEIGHT_LABELS, weights)))
 
     # pre-compute valid values for early filtering
     valid_oddeven = set(ode.freq.keys())
@@ -318,12 +330,14 @@ def predict():
 
     # header
     hPrediction.write("n1\tn2\tn3\tn4\tn5\tn6\t")
-    hPrediction.write("oddeven\tstart\ttemplate\trecency\tsum\tconsec\ttotal\n")
+    hPrediction.write("oddeven\tstart\ttemplate\trecency\tsum\tconsec\tscore\n")
 
     total_combos = 0
     scored_combos = 0
     skipped = 0
     start_time = time.time()
+
+    import numpy as np
 
     for combo in itertools.combinations(range(1, 50), 6):
         total_combos += 1
@@ -365,7 +379,7 @@ def predict():
         else:
             drawdistProb = 0.0
 
-        # --- normalize and score ---
+        # --- normalize ---
         features = [
             odeProb / maxes["oddeven"],
             startProb / maxes["start"],
@@ -375,7 +389,12 @@ def predict():
             (drawdistProb / maxes["dist"]) if drawdistProb > 0 else 0.0,
         ]
 
-        totalScore = sum(w * f for w, f in zip(weights, features))
+        # --- score ---
+        if use_model:
+            feat_scaled = scaler.transform(np.array([features]))
+            totalScore = model.predict_proba(feat_scaled)[0][1]
+        else:
+            totalScore = sum(w * f for w, f in zip(weights, features))
 
         for val in means:
             hPrediction.write(str(val) + "\t")
@@ -392,7 +411,7 @@ def predict():
     print(f"Scored: {scored_combos:,}")
     print(f"Time: {elapsed:.1f}s")
 
-    # sort by total score descending, remove unsorted file
+    # sort by score descending, remove unsorted file
     os.system("head -1 " + PREDICTION_FILE + " > " + PREDICTION_SORTED_FILE +
               " && tail -n +2 " + PREDICTION_FILE + " | sort -t '\t' -k 13,13rg >> " + PREDICTION_SORTED_FILE)
     os.remove(PREDICTION_FILE)

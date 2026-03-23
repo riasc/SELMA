@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELMA - Profiles</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="profiles">
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main">
+            <h2>Yearly Trajectory Profiles</h2>
+
+            <div class="controls">
+                <label>Year:</label>
+                <select id="year-select"></select>
+                <label style="margin-left: 10px;">Compare with:</label>
+                <select id="compare-year-select">
+                    <option value="">-- none --</option>
+                </select>
+            </div>
+
+            <p style="font-size: 13px; color: #888; margin-bottom: 10px;">
+                Select numbers to plot their cumulative draw count over the year.
+            </p>
+
+            <div class="number-grid" id="number-grid"></div>
+
+            <div class="chart-container">
+                <canvas id="profile-chart"></canvas>
+            </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+const colors = [
+    '#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4',
+    '#42d4f4', '#f032e6', '#bfef45', '#fabed4', '#469990'
+];
+const colorsDimmed = [
+    '#e6194b66', '#3cb44b66', '#4363d866', '#f5823166', '#911eb466',
+    '#42d4f466', '#f032e666', '#bfef4566', '#fabed466', '#46999066'
+];
+    let selectedNumbers = [];
+    let profileChart = null;
+
+    const yearSelect = document.getElementById('year-select');
+    const compareSelect = document.getElementById('compare-year-select');
+    years.forEach(y => {
+        yearSelect.add(new Option(y, y));
+        compareSelect.add(new Option(y, y));
+    });
+    yearSelect.value = years[years.length - 1];
+
+    const grid = document.getElementById('number-grid');
+    for (let n = 1; n <= 49; n++) {
+        const btn = document.createElement('div');
+        btn.className = 'number-btn';
+        btn.textContent = n;
+        btn.dataset.num = n;
+        btn.addEventListener('click', () => {
+            const idx = selectedNumbers.indexOf(n);
+            if (idx >= 0) {
+                selectedNumbers.splice(idx, 1);
+                btn.classList.remove('selected');
+            } else {
+                if (selectedNumbers.length >= 10) return;
+                selectedNumbers.push(n);
+                btn.classList.add('selected');
+            }
+            updateProfileChart();
+        });
+        grid.appendChild(btn);
+    }
+
+    function updateProfileChart() {
+        const year = yearSelect.value;
+        const compareYear = compareSelect.value;
+        const maxDraws = Math.max(
+            yearDrawCounts[year] || 0,
+            compareYear ? (yearDrawCounts[compareYear] || 0) : 0
+        );
+        const labels = Array.from({length: maxDraws}, (_, i) => i + 1);
+        const datasets = [];
+
+        selectedNumbers.forEach((num, i) => {
+            const color = colors[i % colors.length];
+            const dimmed = colorsDimmed[i % colorsDimmed.length];
+            if (profileData[num] && profileData[num][year]) {
+                datasets.push({
+                    label: 'Nr ' + num + ' (' + year + ')',
+                    data: profileData[num][year],
+                    borderColor: color, backgroundColor: 'transparent',
+                    borderWidth: 2, pointRadius: 0, tension: 0.1,
+                });
+            }
+            if (compareYear && profileData[num] && profileData[num][compareYear]) {
+                datasets.push({
+                    label: 'Nr ' + num + ' (' + compareYear + ')',
+                    data: profileData[num][compareYear],
+                    borderColor: dimmed, backgroundColor: 'transparent',
+                    borderWidth: 2, borderDash: [5, 5], pointRadius: 0, tension: 0.1,
+                });
+            }
+        });
+
+        if (profileChart) profileChart.destroy();
+        profileChart = new Chart(document.getElementById('profile-chart'), {
+            type: 'line',
+            data: { labels, datasets },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', labels: { font: { size: 12 } } },
+                    tooltip: { mode: 'index', intersect: false },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Draw in year' }, ticks: { maxTicksLimit: 20 } },
+                    y: { title: { display: true, text: 'Cumulative count' }, beginAtZero: true },
+                }
+            }
+        });
+    }
+
+    yearSelect.addEventListener('change', updateProfileChart);
+    compareSelect.addEventListener('change', updateProfileChart);
+    updateProfileChart();
+    </script>
+</body>
+</html>

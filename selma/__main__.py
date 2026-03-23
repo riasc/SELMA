@@ -18,7 +18,8 @@ if __name__ == "__main__":
             to_date = sys.argv[3]
         collect(from_date=from_date, to_date=to_date)
     elif command == "predict":
-        predict()
+        use_model = "--model" in sys.argv
+        predict(use_model=use_model)
     elif command == "backtest":
         test_from = "2026-01-01"
         if len(sys.argv) > 2:
@@ -49,6 +50,7 @@ if __name__ == "__main__":
         print("  python -m selma optimize [FROM]          # find optimal weights")
         print("  python -m selma train [FROM]             # train logistic regression model")
         print("  python -m selma backtest-model [FROM]    # score actual draws (model)")
-        print("  python -m selma predict                  # score all combinations")
+        print("  python -m selma predict                  # score with weighted sum")
+        print("  python -m selma predict --model           # score with logistic regression")
         print("  python -m selma visualize                # generate HTML dashboard")
         sys.exit(1)

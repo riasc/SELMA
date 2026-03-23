@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELMA - Recency</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="distance">
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main">
+            <h2>Recency Score</h2>
+            <p style="font-size: 13px; color: #888; margin-bottom: 15px;">
+                For each draw, sum the gaps (draws since last appearance) of all 6 numbers.
+                Low score = numbers appeared recently. High score = numbers haven't been drawn in a while.
+            </p>
+
+            <div class="chart-container">
+                <canvas id="distance-dist-chart"></canvas>
+            </div>
+
+            <div class="controls">
+                <label>Timeline - show last:</label>
+                <select id="distance-range">
+                    <option value="50">50 draws</option>
+                    <option value="100">100 draws</option>
+                    <option value="200">200 draws</option>
+                    <option value="500">500 draws</option>
+                    <option value="0" selected>All draws</option>
+                </select>
+            </div>
+
+            <div class="chart-container" style="height: 400px;">
+                <canvas id="distance-timeline-chart"></canvas>
+            </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+    let distanceDistChart = null;
+    let distanceTimelineChart = null;
+
+    function updateDistanceDist() {
+        // bin scores into ranges of 5
+        const bins = {};
+        distanceFreq.forEach(d => {
+            const bin = Math.floor(d.score / 5) * 5;
+            bins[bin] = (bins[bin] || 0) + d.count;
+        });
+
+        const binKeys = Object.keys(bins).map(Number).sort((a, b) => a - b);
+        const labels = binKeys.map(k => k + '-' + (k + 4));
+        const counts = binKeys.map(k => bins[k]);
+        const total = counts.reduce((a, b) => a + b, 0);
+        const pcts = counts.map(c => ((c / total) * 100).toFixed(1));
+
+        // find the peak bin
+        const maxCount = Math.max(...counts);
+        const peakBin = binKeys[counts.indexOf(maxCount)];
+
+        const barColors = binKeys.map(k => {
+            const dist = Math.abs(k - peakBin);
+            if (dist <= 10) return '#3cb44b';
+            if (dist <= 25) return '#4363d8';
+            return '#e6194b88';
+        });
+
+        if (distanceDistChart) distanceDistChart.destroy();
+        distanceDistChart = new Chart(document.getElementById('distance-dist-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Count',
+                    data: counts,
+                    backgroundColor: barColors,
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => 'Count: ' + ctx.raw + ' (' + pcts[ctx.dataIndex] + '%)'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: ['Recency Score Distribution (' + total + ' draws)',
+                               'Score = sum of gaps since each number last appeared'],
+                        font: { size: 14 },
+                    },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Recency score (binned by 5)' } },
+                    y: { title: { display: true, text: 'Count' }, beginAtZero: true },
+                }
+            }
+        });
+    }
+
+    function updateDistanceTimeline() {
+        const range = parseInt(document.getElementById('distance-range').value);
+        // filter out draws with no score (early draws where not all numbers have been seen)
+        let data = distanceScores.filter(d => d.score !== null);
+        if (range > 0) {
+            data = data.slice(-range);
+        }
+
+        const labels = data.map(d => d.date);
+        const scores = data.map(d => d.score);
+
+        const window = 20;
+        const rolling = scores.map((_, i) => {
+            const start = Math.max(0, i - window + 1);
+            const slice = scores.slice(start, i + 1);
+            return slice.reduce((a, b) => a + b, 0) / slice.length;
+        });
+
+        const mean = scores.reduce((a, b) => a + b, 0) / scores.length;
+
+        if (distanceTimelineChart) distanceTimelineChart.destroy();
+        distanceTimelineChart = new Chart(document.getElementById('distance-timeline-chart'), {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Recency score per draw',
+                        data: scores,
+                        borderColor: '#f5823144',
+                        backgroundColor: '#f5823122',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: true,
+                    },
+                    {
+                        label: 'Rolling avg (20 draws)',
+                        data: rolling,
+                        borderColor: '#e6194b',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                    },
+                    {
+                        label: 'Mean (' + mean.toFixed(1) + ')',
+                        data: Array(data.length).fill(mean),
+                        borderColor: '#88888866',
+                        backgroundColor: 'transparent',
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', labels: { font: { size: 12 } } },
+                    title: { display: true, text: 'Recency Score Over Time', font: { size: 16 } },
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Draw date' },
+                        ticks: { maxTicksLimit: 15, maxRotation: 45 },
+                    },
+                    y: {
+                        title: { display: true, text: 'Recency score' },
+                    }
+                }
+            }
+        });
+    }
+
+    document.getElementById('distance-range').addEventListener('change', updateDistanceTimeline);
+    updateDistanceDist();
+    updateDistanceTimeline();
+    </script>
+</body>
+</html>

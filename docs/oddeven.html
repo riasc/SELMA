@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELMA - Odd / Even</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="oddeven">
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main">
+            <h2>Odd / Even Ratio</h2>
+
+            <div class="controls">
+                <label>From:</label>
+                <select id="oddeven-from-year"></select>
+                <label>To:</label>
+                <select id="oddeven-to-year"></select>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="oddeven-freq-chart"></canvas>
+            </div>
+
+            <div class="controls">
+                <label>Timeline - show last:</label>
+                <select id="oddeven-range">
+                    <option value="50">50 draws</option>
+                    <option value="100">100 draws</option>
+                    <option value="200">200 draws</option>
+                    <option value="500">500 draws</option>
+                    <option value="0" selected>All draws</option>
+                </select>
+            </div>
+
+            <div class="chart-container" style="height: 350px;">
+                <canvas id="oddeven-timeline-chart"></canvas>
+            </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+    let oddevenFreqChart = null;
+    let oddevenTimelineChart = null;
+
+    // populate year range selects
+    const fromSelect = document.getElementById('oddeven-from-year');
+    const toSelect = document.getElementById('oddeven-to-year');
+    const oeYears = [...new Set(oddevenOcc.map(d => d.date.split('-')[0]))].sort();
+    oeYears.forEach(y => {
+        fromSelect.add(new Option(y, y));
+        toSelect.add(new Option(y, y));
+    });
+    fromSelect.value = oeYears[0];
+    toSelect.value = oeYears[oeYears.length - 1];
+
+    fromSelect.addEventListener('change', updateOddEvenFreqChart);
+    toSelect.addEventListener('change', updateOddEvenFreqChart);
+    document.getElementById('oddeven-range').addEventListener('change', updateOddEvenTimeline);
+
+    function updateOddEvenFreqChart() {
+        const fromYear = document.getElementById('oddeven-from-year').value;
+        const toYear = document.getElementById('oddeven-to-year').value;
+
+        // filter occurrence data by year range
+        const filtered = oddevenOcc.filter(d => {
+            const y = d.date.split('-')[0];
+            return y >= fromYear && y <= toYear;
+        });
+
+        // count ratios from filtered data
+        const ratioCount = {};
+        filtered.forEach(d => {
+            const key = d.odd + '/' + d.even;
+            ratioCount[key] = (ratioCount[key] || 0) + 1;
+        });
+
+        const keys = Object.keys(ratioCount).sort((a, b) => {
+            const [ao] = a.split('/').map(Number);
+            const [bo] = b.split('/').map(Number);
+            return bo - ao;
+        });
+        const labels = keys.map(k => k.replace('/', ' odd / ') + ' even');
+        const counts = keys.map(k => ratioCount[k]);
+        const total = counts.reduce((a, b) => a + b, 0);
+        const pcts = counts.map(c => ((c / total) * 100).toFixed(1));
+
+        const barColors = keys.map(k => {
+            const odd = parseInt(k.split('/')[0]);
+            if (odd === 3) return '#3cb44b';
+            if (odd === 2 || odd === 4) return '#4363d8';
+            return '#e6194b';
+        });
+
+        const titleText = 'Distribution of Odd/Even Ratios (' + fromYear + ' - ' + toYear + ', ' + total + ' draws)';
+
+        if (oddevenFreqChart) oddevenFreqChart.destroy();
+        oddevenFreqChart = new Chart(document.getElementById('oddeven-freq-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Count',
+                    data: counts,
+                    backgroundColor: barColors,
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => 'Count: ' + ctx.raw + ' (' + pcts[ctx.dataIndex] + '%)'
+                        }
+                    },
+                    title: { display: true, text: titleText, font: { size: 16 } },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Ratio' } },
+                    y: { title: { display: true, text: 'Count' }, beginAtZero: true },
+                }
+            }
+        });
+    }
+
+    function updateOddEvenTimeline() {
+        const range = parseInt(document.getElementById('oddeven-range').value);
+        let data = oddevenOcc;
+        if (range > 0) {
+            data = data.slice(-range);
+        }
+
+        const labels = data.map(d => d.date);
+        const oddCounts = data.map(d => d.odd);
+
+        // compute rolling average (window of 20)
+        const window = 20;
+        const rolling = oddCounts.map((_, i) => {
+            const start = Math.max(0, i - window + 1);
+            const slice = oddCounts.slice(start, i + 1);
+            return slice.reduce((a, b) => a + b, 0) / slice.length;
+        });
+
+        if (oddevenTimelineChart) oddevenTimelineChart.destroy();
+        oddevenTimelineChart = new Chart(document.getElementById('oddeven-timeline-chart'), {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Odd count per draw',
+                        data: oddCounts,
+                        borderColor: '#4363d844',
+                        backgroundColor: '#4363d822',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: true,
+                    },
+                    {
+                        label: 'Rolling avg (20 draws)',
+                        data: rolling,
+                        borderColor: '#e6194b',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                    },
+                    {
+                        label: 'Expected (3)',
+                        data: Array(data.length).fill(3),
+                        borderColor: '#88888866',
+                        backgroundColor: 'transparent',
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', labels: { font: { size: 12 } } },
+                    title: { display: true, text: 'Odd Numbers per Draw Over Time', font: { size: 16 } },
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Draw date' },
+                        ticks: { maxTicksLimit: 15, maxRotation: 45 },
+                    },
+                    y: {
+                        title: { display: true, text: 'Odd count' },
+                        min: 0, max: 6,
+                    }
+                }
+            }
+        });
+    }
+
+    updateOddEvenFreqChart();
+    updateOddEvenTimeline();
+    </script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELMA - Number Groups</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="numgroups">
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main">
+            <h2>Number Groups</h2>
+            <p style="font-size: 13px; color: #888; margin-bottom: 15px;">
+                Numbers grouped into decades: 0 = 1-9, 1 = 10-19, 2 = 20-29, 3 = 30-39, 4 = 40-49
+            </p>
+
+            <div class="controls">
+                <label>From:</label>
+                <select id="numgroups-from-year"></select>
+                <label>To:</label>
+                <select id="numgroups-to-year"></select>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="numgroups-decade-chart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="numgroups-spread-chart"></canvas>
+            </div>
+
+            <div class="chart-container" style="height: 600px;">
+                <canvas id="numgroups-patterns-chart"></canvas>
+            </div>
+
+            <div class="controls">
+                <label>Timeline - show last:</label>
+                <select id="numgroups-range">
+                    <option value="50">50 draws</option>
+                    <option value="100">100 draws</option>
+                    <option value="200">200 draws</option>
+                    <option value="500">500 draws</option>
+                    <option value="0" selected>All draws</option>
+                </select>
+            </div>
+
+            <div class="chart-container" style="height: 350px;">
+                <canvas id="numgroups-timeline-chart"></canvas>
+            </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+    let numgroupsDecadeChart = null;
+    let numgroupsSpreadChart = null;
+    let numgroupsTimelineChart = null;
+    let numgroupsPatternsChart = null;
+
+    const decadeLabels = ['1-9', '10-19', '20-29', '30-39', '40-49'];
+    const decadeColors = ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4'];
+
+    const fromSelect = document.getElementById('numgroups-from-year');
+    const toSelect = document.getElementById('numgroups-to-year');
+    const ngYears = [...new Set(templatesOcc.map(d => d.date.split('-')[0]))].sort();
+    ngYears.forEach(y => {
+        fromSelect.add(new Option(y, y));
+        toSelect.add(new Option(y, y));
+    });
+    fromSelect.value = ngYears[0];
+    toSelect.value = ngYears[ngYears.length - 1];
+
+    fromSelect.addEventListener('change', updateNumGroupsCharts);
+    toSelect.addEventListener('change', updateNumGroupsCharts);
+    document.getElementById('numgroups-range').addEventListener('change', updateNumGroupsTimeline);
+
+    function updateNumGroupsCharts() {
+        const fromYear = document.getElementById('numgroups-from-year').value;
+        const toYear = document.getElementById('numgroups-to-year').value;
+
+        const filtered = templatesOcc.filter(d => {
+            const y = d.date.split('-')[0];
+            return y >= fromYear && y <= toYear;
+        });
+
+        const total = filtered.length;
+
+        // decade frequency: how often each group appears across all draws
+        const decadeCounts = [0, 0, 0, 0, 0];
+        filtered.forEach(d => {
+            d.groups.forEach(g => { decadeCounts[g]++; });
+        });
+
+        const titleDecade = 'Numbers per Decade Group (' + fromYear + ' - ' + toYear + ', ' + total + ' draws)';
+
+        if (numgroupsDecadeChart) numgroupsDecadeChart.destroy();
+        numgroupsDecadeChart = new Chart(document.getElementById('numgroups-decade-chart'), {
+            type: 'bar',
+            data: {
+                labels: decadeLabels,
+                datasets: [{
+                    label: 'Count',
+                    data: decadeCounts,
+                    backgroundColor: decadeColors,
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => {
+                                const pct = ((ctx.raw / (total * 6)) * 100).toFixed(1);
+                                return 'Count: ' + ctx.raw + ' (' + pct + '% of all drawn numbers)';
+                            }
+                        }
+                    },
+                    title: { display: true, text: titleDecade, font: { size: 16 } },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Decade group' } },
+                    y: { title: { display: true, text: 'Count' }, beginAtZero: true },
+                }
+            }
+        });
+
+        // spread distribution
+        const spreadCounts = {};
+        filtered.forEach(d => {
+            const s = d.spread;
+            spreadCounts[s] = (spreadCounts[s] || 0) + 1;
+        });
+
+        const spreadKeys = Object.keys(spreadCounts).map(Number).sort();
+        const spreadLabels = spreadKeys.map(k => k + ' of 5');
+        const spreadData = spreadKeys.map(k => spreadCounts[k]);
+        const spreadPcts = spreadData.map(c => ((c / total) * 100).toFixed(1));
+
+        const spreadBarColors = spreadKeys.map(k => {
+            if (k >= 4) return '#3cb44b';
+            if (k === 3) return '#4363d8';
+            return '#e6194b';
+        });
+
+        const titleSpread = 'Decade Spread: How many of the 5 groups are represented per draw (' + fromYear + ' - ' + toYear + ')';
+
+        if (numgroupsSpreadChart) numgroupsSpreadChart.destroy();
+        numgroupsSpreadChart = new Chart(document.getElementById('numgroups-spread-chart'), {
+            type: 'bar',
+            data: {
+                labels: spreadLabels,
+                datasets: [{
+                    label: 'Count',
+                    data: spreadData,
+                    backgroundColor: spreadBarColors,
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => 'Count: ' + ctx.raw + ' (' + spreadPcts[ctx.dataIndex] + '%)'
+                        }
+                    },
+                    title: { display: true, text: titleSpread, font: { size: 16 } },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Decades covered' } },
+                    y: { title: { display: true, text: 'Count' }, beginAtZero: true },
+                }
+            }
+        });
+
+        // top N most common group patterns
+        updateNumGroupsPatterns(filtered, fromYear, toYear);
+    }
+
+    function updateNumGroupsPatterns(filtered, fromYear, toYear) {
+        const patternCounts = {};
+        filtered.forEach(d => {
+            const key = d.groups.join('-');
+            patternCounts[key] = (patternCounts[key] || 0) + 1;
+        });
+
+        const sorted = Object.entries(patternCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 20);
+
+        const total = filtered.length;
+        const labels = sorted.map(([k, _]) => {
+            const groups = k.split('-').map(Number);
+            return groups.map(g => decadeLabels[g]).join(', ');
+        });
+        const counts = sorted.map(([_, c]) => c);
+        const pcts = counts.map(c => ((c / total) * 100).toFixed(1));
+
+        // color by spread
+        const barColors = sorted.map(([k, _]) => {
+            const spread = new Set(k.split('-')).size;
+            if (spread === 5) return '#3cb44b';
+            if (spread === 4) return '#4363d8';
+            if (spread === 3) return '#f58231';
+            return '#e6194b';
+        });
+
+        const titlePatterns = 'Top 20 Group Patterns (' + fromYear + ' - ' + toYear + ')';
+
+        if (numgroupsPatternsChart) numgroupsPatternsChart.destroy();
+        numgroupsPatternsChart = new Chart(document.getElementById('numgroups-patterns-chart'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Count',
+                    data: counts,
+                    backgroundColor: barColors,
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => 'Count: ' + ctx.raw + ' (' + pcts[ctx.dataIndex] + '%)'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: [titlePatterns, 'Color: green = 5 groups, blue = 4, orange = 3, red = 2 or fewer'],
+                        font: { size: 14 },
+                    },
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Count' }, beginAtZero: true },
+                    y: { ticks: { font: { size: 11 } } },
+                }
+            }
+        });
+    }
+
+    function updateNumGroupsTimeline() {
+        const range = parseInt(document.getElementById('numgroups-range').value);
+        let data = templatesOcc;
+        if (range > 0) {
+            data = data.slice(-range);
+        }
+
+        const labels = data.map(d => d.date);
+        const spreads = data.map(d => d.spread);
+
+        const window = 20;
+        const rolling = spreads.map((_, i) => {
+            const start = Math.max(0, i - window + 1);
+            const slice = spreads.slice(start, i + 1);
+            return slice.reduce((a, b) => a + b, 0) / slice.length;
+        });
+
+        if (numgroupsTimelineChart) numgroupsTimelineChart.destroy();
+        numgroupsTimelineChart = new Chart(document.getElementById('numgroups-timeline-chart'), {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Decades covered per draw',
+                        data: spreads,
+                        borderColor: '#911eb444',
+                        backgroundColor: '#911eb422',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: true,
+                    },
+                    {
+                        label: 'Rolling avg (20 draws)',
+                        data: rolling,
+                        borderColor: '#e6194b',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', labels: { font: { size: 12 } } },
+                    title: { display: true, text: 'Decade Spread Over Time', font: { size: 16 } },
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Draw date' },
+                        ticks: { maxTicksLimit: 15, maxRotation: 45 },
+                    },
+                    y: {
+                        title: { display: true, text: 'Decades covered' },
+                        min: 0, max: 5,
+                    }
+                }
+            }
+        });
+    }
+
+    updateNumGroupsCharts();
+    updateNumGroupsTimeline();
+    </script>
+</body>
+</html>
