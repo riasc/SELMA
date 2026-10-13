@@ -14,6 +14,10 @@ python -m selma optimize [FROM]          # find optimal weights → results/weig
 python -m selma backtest [FROM]          # score actual draws → results/backtest.tsv
 python -m selma predict                  # score all combinations → results/predictions_sorted.tsv
 python -m selma visualize               # generate HTML dashboard → visualize.html
+python -m selma evaluate                # prior-only number probabilities versus chance
+python -m selma evaluate-structural     # structural combination scores versus chance
+python -m selma evaluate-rolling        # learn on prior years, test subsequent years
+python -m selma.audit_archive --help    # compare/repair from official CSV ZIP archives
 ```
 
 Dependencies: Python 3, NumPy, Matplotlib (`pip install -r requirements.txt`).
