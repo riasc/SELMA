@@ -7,3 +7,6 @@ __pycache__/
 
 # Results (generated, not committed)
 results/
+
+# Claude Code local config
+.claude/settings.local.json

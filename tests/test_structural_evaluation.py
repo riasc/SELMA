@@ -51,7 +51,7 @@ class StructuralTests(unittest.TestCase):
                                    if accepted else -1)
 
     def test_weights_match_prediction_defaults(self):
-        tree = ast.parse(Path('selma/prediction.py').read_text())
+        tree = ast.parse((Path(__file__).resolve().parent.parent / 'selma' / 'prediction.py').read_text())
         value = next(node.value for node in tree.body if isinstance(node, ast.Assign)
                      and any(isinstance(t, ast.Name) and t.id == 'DEFAULT_WEIGHTS' for t in node.targets))
         self.assertEqual(tuple(ast.literal_eval(value)), WEIGHTS)

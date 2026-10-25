@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 from datetime import date, timedelta
 
-from selma.evaluation import BASE, evaluate, forecasts, load_draws, metrics, ticket
+from selma.evaluation import BASE, bootstrap_ci, evaluate, forecasts, load_draws, metrics, ticket
 
 
 class EvaluationTests(unittest.TestCase):
@@ -78,6 +78,10 @@ class EvaluationTests(unittest.TestCase):
     def test_empty_holdout_is_rejected(self):
         with self.assertRaisesRegex(ValueError, 'both tuning and holdout'):
             evaluate(self.draws, '2020-02-01', '2026-01-01')
+
+    def test_bootstrap_ci_has_width_for_small_samples(self):
+        low, high = bootstrap_ci([0.0, 1.0, 0.0, 1.0, 0.0, 1.0], seed=1)
+        self.assertLess(low, high)
 
 
 if __name__ == '__main__':

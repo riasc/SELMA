@@ -77,7 +77,7 @@ def bootstrap_ci(values, seed, repetitions=1000, block=10):
     """Paired circular block bootstrap over draw-level differences."""
     rng = random.Random(seed)
     n = len(values)
-    block = min(block, n)
+    block = max(1, min(block, n // 2))  # keep resamples varied when n is small
     estimates = []
     for _ in range(repetitions):
         sample = []
