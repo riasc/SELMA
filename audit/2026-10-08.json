@@ -1,0 +1,3385 @@
+{
+  "through": "2026-10-07",
+  "before_count": 4998,
+  "official_count": 5053,
+  "applied": true,
+  "sources": [
+    {
+      "file": "selma-westlotto-historic-csv.zip",
+      "sha256": "abdb0523531c1d80cca66b52b277a5b62a9e5126083cd53643cbe8e72662d986",
+      "members": [
+        "LOTTO_ab_1955.csv"
+      ],
+      "discovery_url": "https://www.lotto-thueringen.de/service/downloads/downloads.html",
+      "endpoint": "https://www.westlotto.de/wlinfo/WL_InfoService",
+      "download_url": "https://www.westlotto.de/wlinfo/WL_InfoService?gruppe=ErgebnisDownload&client=thueringen&jahr_von=1955&jahr_bis=2023&spielart=LOTTO&format=csv"
+    },
+    {
+      "file": "selma-westlotto-current.csv",
+      "sha256": "4556fd139bc3c0ccb1d9f050ae1507c58c8c5e5d2bfc2a229eee5755fc937968",
+      "members": [
+        "LOTTO_ab_2024.csv"
+      ],
+      "discovery_url": "https://www.lotto-thueringen.de/service/downloads/downloads.html",
+      "endpoint": "https://www.westlotto.de/wlinfo/WL_InfoService",
+      "download_url": "https://www.westlotto.de/wlinfo/WL_InfoService?gruppe=ErgebnisDownload&client=thueringen&jahr_von=2024&jahr_bis=2026&spielart=LOTTO&format=csv"
+    }
+  ],
+  "excluded": {
+    "separate_pre_unification_Wednesday_games": 1728
+  },
+  "change_counts": {
+    "date_correction": 3,
+    "missing_draw": 55,
+    "result_correction": 2
+  },
+  "changes": [
+    {
+      "kind": "date_correction",
+      "old": [
+        "1966-12-25",
+        [
+          10,
+          15,
+          16,
+          19,
+          21,
+          32
+        ],
+        -1
+      ],
+      "new": [
+        "1966-12-24",
+        [
+          10,
+          15,
+          16,
+          19,
+          21,
+          32
+        ],
+        -1
+      ]
+    },
+    {
+      "kind": "date_correction",
+      "old": [
+        "1967-01-01",
+        [
+          2,
+          20,
+          33,
+          40,
+          41,
+          43
+        ],
+        -1
+      ],
+      "new": [
+        "1966-12-31",
+        [
+          2,
+          20,
+          33,
+          40,
+          41,
+          43
+        ],
+        -1
+      ]
+    },
+    {
+      "kind": "date_correction",
+      "old": [
+        "2020-08-14",
+        [
+          4,
+          20,
+          21,
+          34,
+          35,
+          45
+        ],
+        4
+      ],
+      "new": [
+        "2020-08-12",
+        [
+          4,
+          20,
+          21,
+          34,
+          35,
+          45
+        ],
+        4
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2020-07-29",
+        [
+          3,
+          15,
+          20,
+          34,
+          35,
+          43
+        ],
+        7
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2020-08-15",
+        [
+          16,
+          24,
+          31,
+          40,
+          44,
+          46
+        ],
+        0
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2020-12-16",
+        [
+          1,
+          2,
+          17,
+          19,
+          22,
+          48
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2020-12-23",
+        [
+          11,
+          12,
+          13,
+          37,
+          38,
+          39
+        ],
+        7
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2020-12-30",
+        [
+          5,
+          8,
+          11,
+          40,
+          44,
+          45
+        ],
+        9
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-01-06",
+        [
+          14,
+          21,
+          32,
+          37,
+          38,
+          44
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-01-13",
+        [
+          7,
+          23,
+          26,
+          38,
+          40,
+          43
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-01-20",
+        [
+          5,
+          6,
+          11,
+          31,
+          35,
+          42
+        ],
+        0
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-01-27",
+        [
+          1,
+          4,
+          15,
+          16,
+          44,
+          45
+        ],
+        3
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-02-03",
+        [
+          3,
+          6,
+          10,
+          12,
+          34,
+          47
+        ],
+        9
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-02-10",
+        [
+          5,
+          19,
+          21,
+          27,
+          32,
+          46
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-02-17",
+        [
+          4,
+          10,
+          25,
+          29,
+          40,
+          48
+        ],
+        9
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-02-24",
+        [
+          1,
+          5,
+          13,
+          36,
+          44,
+          46
+        ],
+        3
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-03-03",
+        [
+          1,
+          9,
+          10,
+          23,
+          24,
+          27
+        ],
+        4
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-03-10",
+        [
+          7,
+          8,
+          11,
+          21,
+          30,
+          46
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-03-17",
+        [
+          1,
+          3,
+          18,
+          30,
+          31,
+          41
+        ],
+        3
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-03-24",
+        [
+          4,
+          11,
+          14,
+          23,
+          24,
+          48
+        ],
+        4
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-03-31",
+        [
+          1,
+          12,
+          16,
+          24,
+          31,
+          48
+        ],
+        4
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-04-07",
+        [
+          9,
+          10,
+          18,
+          19,
+          36,
+          37
+        ],
+        0
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-04-14",
+        [
+          2,
+          4,
+          18,
+          19,
+          20,
+          46
+        ],
+        5
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-04-21",
+        [
+          1,
+          18,
+          24,
+          27,
+          37,
+          47
+        ],
+        0
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-04-28",
+        [
+          12,
+          13,
+          21,
+          23,
+          31,
+          46
+        ],
+        0
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-05-05",
+        [
+          4,
+          5,
+          6,
+          10,
+          15,
+          21
+        ],
+        8
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-05-12",
+        [
+          1,
+          2,
+          18,
+          34,
+          42,
+          44
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-05-19",
+        [
+          5,
+          7,
+          14,
+          25,
+          38,
+          45
+        ],
+        4
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-05-26",
+        [
+          2,
+          23,
+          34,
+          35,
+          44,
+          46
+        ],
+        7
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-06-02",
+        [
+          10,
+          14,
+          15,
+          35,
+          39,
+          45
+        ],
+        0
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-06-09",
+        [
+          1,
+          7,
+          17,
+          22,
+          41,
+          49
+        ],
+        3
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-06-16",
+        [
+          1,
+          22,
+          25,
+          28,
+          37,
+          44
+        ],
+        7
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-06-23",
+        [
+          5,
+          6,
+          9,
+          20,
+          33,
+          46
+        ],
+        5
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-06-30",
+        [
+          4,
+          10,
+          15,
+          27,
+          32,
+          47
+        ],
+        8
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-07-07",
+        [
+          2,
+          8,
+          23,
+          29,
+          31,
+          43
+        ],
+        9
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-07-14",
+        [
+          1,
+          12,
+          15,
+          26,
+          33,
+          49
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-07-21",
+        [
+          7,
+          8,
+          18,
+          38,
+          39,
+          48
+        ],
+        2
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-07-28",
+        [
+          8,
+          10,
+          11,
+          19,
+          31,
+          47
+        ],
+        3
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-08-04",
+        [
+          1,
+          3,
+          5,
+          6,
+          30,
+          41
+        ],
+        2
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-08-11",
+        [
+          6,
+          12,
+          22,
+          34,
+          46,
+          49
+        ],
+        1
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-08-18",
+        [
+          7,
+          22,
+          25,
+          27,
+          43,
+          48
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-08-25",
+        [
+          6,
+          9,
+          11,
+          12,
+          24,
+          33
+        ],
+        7
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-09-01",
+        [
+          3,
+          5,
+          16,
+          39,
+          48,
+          49
+        ],
+        0
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-09-08",
+        [
+          13,
+          21,
+          23,
+          30,
+          41,
+          44
+        ],
+        3
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-09-15",
+        [
+          8,
+          21,
+          27,
+          37,
+          40,
+          41
+        ],
+        5
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-09-22",
+        [
+          3,
+          5,
+          13,
+          21,
+          22,
+          31
+        ],
+        7
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-09-29",
+        [
+          11,
+          14,
+          16,
+          31,
+          36,
+          43
+        ],
+        4
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-10-06",
+        [
+          3,
+          8,
+          10,
+          27,
+          29,
+          40
+        ],
+        2
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-10-13",
+        [
+          4,
+          7,
+          10,
+          18,
+          31,
+          35
+        ],
+        5
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-10-20",
+        [
+          7,
+          15,
+          16,
+          24,
+          37,
+          43
+        ],
+        5
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-10-27",
+        [
+          1,
+          16,
+          20,
+          21,
+          25,
+          45
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-11-03",
+        [
+          10,
+          13,
+          14,
+          28,
+          44,
+          49
+        ],
+        0
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-11-10",
+        [
+          6,
+          8,
+          15,
+          16,
+          22,
+          32
+        ],
+        7
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-11-17",
+        [
+          5,
+          15,
+          21,
+          25,
+          28,
+          47
+        ],
+        9
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-11-24",
+        [
+          2,
+          5,
+          9,
+          19,
+          24,
+          25
+        ],
+        7
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-12-01",
+        [
+          5,
+          8,
+          12,
+          13,
+          34,
+          49
+        ],
+        7
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-12-08",
+        [
+          15,
+          16,
+          18,
+          26,
+          39,
+          44
+        ],
+        5
+      ]
+    },
+    {
+      "kind": "missing_draw",
+      "old": null,
+      "new": [
+        "2021-12-22",
+        [
+          13,
+          33,
+          37,
+          40,
+          46,
+          48
+        ],
+        6
+      ]
+    },
+    {
+      "kind": "result_correction",
+      "old": [
+        "2020-01-22",
+        [
+          3,
+          16,
+          23,
+          33,
+          41,
+          47
+        ],
+        6
+      ],
+      "new": [
+        "2020-01-22",
+        [
+          3,
+          16,
+          23,
+          33,
+          41,
+          47
+        ],
+        4
+      ]
+    },
+    {
+      "kind": "result_correction",
+      "old": [
+        "2020-09-12",
+        [
+          11,
+          26,
+          28,
+          40,
+          41,
+          45
+        ],
+        7
+      ],
+      "new": [
+        "2020-09-12",
+        [
+          11,
+          16,
+          28,
+          40,
+          41,
+          45
+        ],
+        7
+      ]
+    }
+  ],
+  "format_changes": [
+    {
+      "file": "2021.txt",
+      "issue": "missing_header"
+    }
+  ],
+  "before_schedule": {
+    "missing_dates": [
+      "2020-07-29",
+      "2020-08-12",
+      "2020-08-15",
+      "2020-12-16",
+      "2020-12-23",
+      "2020-12-30",
+      "2021-01-06",
+      "2021-01-13",
+      "2021-01-20",
+      "2021-01-27",
+      "2021-02-03",
+      "2021-02-10",
+      "2021-02-17",
+      "2021-02-24",
+      "2021-03-03",
+      "2021-03-10",
+      "2021-03-17",
+      "2021-03-24",
+      "2021-03-31",
+      "2021-04-07",
+      "2021-04-14",
+      "2021-04-21",
+      "2021-04-28",
+      "2021-05-05",
+      "2021-05-12",
+      "2021-05-19",
+      "2021-05-26",
+      "2021-06-02",
+      "2021-06-09",
+      "2021-06-16",
+      "2021-06-23",
+      "2021-06-30",
+      "2021-07-07",
+      "2021-07-14",
+      "2021-07-21",
+      "2021-07-28",
+      "2021-08-04",
+      "2021-08-11",
+      "2021-08-18",
+      "2021-08-25",
+      "2021-09-01",
+      "2021-09-08",
+      "2021-09-15",
+      "2021-09-22",
+      "2021-09-29",
+      "2021-10-06",
+      "2021-10-13",
+      "2021-10-20",
+      "2021-10-27",
+      "2021-11-03",
+      "2021-11-10",
+      "2021-11-17",
+      "2021-11-24",
+      "2021-12-01",
+      "2021-12-08",
+      "2021-12-22"
+    ],
+    "unexpected_dates": [
+      "2020-08-14"
+    ]
+  },
+  "official_schedule": {
+    "missing_dates": [],
+    "unexpected_dates": []
+  },
+  "changed_files": [
+    "1966.txt",
+    "1967.txt",
+    "2009.txt",
+    "2020.txt",
+    "2021.txt"
+  ],
+  "notes": [
+    "Scope: original weekend series through 2000-12-02, unified Wed/Sat series from 2000-12-06; earlier Sunday dates retained as supplied by the official CSV.",
+    "Official CSV columns 2:8 contain the six main numbers; column 10 is Superzahl, not Zusatzzahl. Blank Superzahl maps to -1.",
+    "Current official CSV is the canonical reference. The older 2021 Excel ZIP disagrees on dates for two 1966 holiday draws and two July 2014/2015 draws; CSV dates take precedence.",
+    "Original files and previous evaluation summaries were preserved in results/archive_audit before repair."
+  ],
+  "after_count": 5053,
+  "after_schedule": {
+    "missing_dates": [],
+    "unexpected_dates": []
+  },
+  "audit_date": "2026-10-08",
+  "previous_loader_count": 4997,
+  "loader_note": "The old loader skipped the first 2021 record because its header was missing. There are 55 added records and one recovered by fixing parsing.",
+  "repaired_file_sha256": {
+    "1955.txt": "dd8145c6a4609b29ce0d58d5e206909cc5cc1477c6ec40e679d149ed34291db8",
+    "1956.txt": "528b5a9d9ac1f296ba67f4cb1d7fae4bf4c1d4a2577f74e71099351dad598812",
+    "1957.txt": "6bac3ea70bb4c64696c90422202efd00925e99e4b6abfdf6570e45004dc5867c",
+    "1958.txt": "dffbfbb3ad55b64e654e586a12149f57db4ce06d462b54b2352ebc409eac65f1",
+    "1959.txt": "758f98ba844ae3b8ec9bafebaa9b98fa53c2a6444d0ce00098c637e69f9d67e1",
+    "1960.txt": "4982c9d9b6e979e72da597090bba288108372e703137510f73af3b2e0520e042",
+    "1961.txt": "a41dc7249dd9c5683ff9c58bbe2c4de7bf008f27d27ff1726727132b589e7665",
+    "1962.txt": "d9d744b57e5b9f336c0aee5855e3c74d4b22bcce1981cf5bc78e07d7f6c1974b",
+    "1963.txt": "e97cc689e57664fbdc7a24d4c146383ae03abc22a6543b5c79465a4a997cacd0",
+    "1964.txt": "5741a98f173d06465a5e7baf8e7df44da48f3b2b023a516b472f23e1e82c026d",
+    "1965.txt": "99a7ca96d0ec4a913661af0f45e05f9501070c1d1a85673dedb886e27eead1b9",
+    "1966.txt": "6e173225f15a9c7a1d4a57a7cfc9046b3ec812d2c3a6024bfdb393598ba58669",
+    "1967.txt": "8c8efda2c2c0a7eb224274aed124c8dcbf42657e5548715ac074476b99a92f32",
+    "1968.txt": "feeddd857af2a477f52695d0fcb55b8f8d5fad13bfe4f2ec70fc03e1c012a102",
+    "1969.txt": "e587985f1129f37701942e4b14fc289390e74a302b08aa034d30451173b41d01",
+    "1970.txt": "8d5b31c8f0ff2b864506e8649c476a60a8cf63fc7287e0a5e33c56195680596f",
+    "1971.txt": "84aa6fede76af4e15b2604b210c4a185fcaf54b62c3ac1c567421607f920ff06",
+    "1972.txt": "d807a0e925d52c98ecf77712da9d518fe9b05f20d0d1ffda96bf4c859463f2ea",
+    "1973.txt": "d62c9d6fc9f093d831277ea94ff1135b05c812f896d563feca1d1c08717d2971",
+    "1974.txt": "47d0efd1d7d985f0dcace2e6ba294be4871104d4ec09dcc2e1b46bf2b749711b",
+    "1975.txt": "19824f7475db66254a885eefaea2ff07dba09072371edec88a01484e60b3dee7",
+    "1976.txt": "4f536395f66fbc629d8030f49b46f07ac6e513a43bef83e5a7a1a0523bb1b3c7",
+    "1977.txt": "9507d0690a58b16739c02b2204177f7255a94599d66c16322f1f917f0458b8be",
+    "1978.txt": "245ac9bc4d0d4faa58ab993e880d791c44a4661cd00edda59a5b7970b0af2263",
+    "1979.txt": "8234bd3b3ae7617d8156ab116d76f8e230f4363d73e9f47e731f4125e14cb91e",
+    "1980.txt": "f438f63d35540b7e9161885381e5e044a16d8de92d204b1acf23b01a36c352c8",
+    "1981.txt": "b0b96e1875a29d21a503f08987084998920795dbe373d2a3008c104a23ca7f5d",
+    "1982.txt": "f8df918223ad0848951d594aa918da257d8b28be8e77462114543baaa1cd5bc5",
+    "1983.txt": "e7618c19efb14e1995dae17335747d9001eaddb720566e2d2696c06770a7d27d",
+    "1984.txt": "0ccda6de4cfac47aae90ded412af61f36e54cff6d9999375c3dc22bda1a95958",
+    "1985.txt": "53dae82c917063db9abe13576df0d7003fc4fcd3f8962a81cc93d8a78ae3df3f",
+    "1986.txt": "b5b7b2be10bb1baacd2eb467e6a96daaea64cd54c9812dff4f1eca68bfbbf9d0",
+    "1987.txt": "0bdd7cf8546df62ff21ab1ee95b0b78902fdc4ec7e6e500acd22a0a4560ceea1",
+    "1988.txt": "2ff366d71e3c1889d6b99f8595c2dafe7c98961265b487c7cace1847bffec73d",
+    "1989.txt": "109b1893eb574d2504e4413a00299d7b0ba4aa2991bfa7097004c67058df8e8a",
+    "1990.txt": "7725ff9c4706687a7b4346e4ef6533678da44a0f55bc42f53bfec3de84cfab3d",
+    "1991.txt": "1a68cf16bdcce76779afacc012886992c829ed992e8d4aa551293744fd8ebc7d",
+    "1992.txt": "73a2a1d7bb91fa7ca932586b07787cffe7b74bea31a58631d198de306e24f7a8",
+    "1993.txt": "1631237752f3af853795f22e02bdfdc5fe004ce7c55c067af7dccdc130e4e5b7",
+    "1994.txt": "484140db2de7dd78360b216360dd6b355956a2d46cdb5ab0fcb5d4aa9165368e",
+    "1995.txt": "1c0bb91a244609478819b747b6a901bb33372f7ed42682d0bfdb9bd8be9029cc",
+    "1996.txt": "802ada622fa965fdcdffb0875d4b99d20a3b13ec1b31821d60defa151c524883",
+    "1997.txt": "39b223edfcdf2bd09d32c9ba1bff94022165565653008447d24e89967041524f",
+    "1998.txt": "541e6aebb4fd8a71804fcd18912d82fe5ba8eb27d662da23174075c0554e9d58",
+    "1999.txt": "822008d49514fd74a565d9652a884395168dc9b5137d4782ef4955e353e88bc0",
+    "2000.txt": "d6fdc2a7f0a160a57eb3e194f8bac1c37dff8576c70188764bc671f357bcc919",
+    "2001.txt": "87a65654aea480000f41a817f3bebb8be8d63c14a9696a6c06305338c856d5c3",
+    "2002.txt": "8e22065f585b90100c99eefc77bcbd3a2c97b7547fcd355a70890f6f2e47c300",
+    "2003.txt": "615f638055e62cde0bb8b34209318498e5070b936f43f1f983204c958b564744",
+    "2004.txt": "1462edca0ca031027f343f7439cf1a943fd70970d51510a58c483a67d4fd8da0",
+    "2005.txt": "8156e861a1c050f50008fc40a9bda879990b92adf65e6216eac13d69f2f388a3",
+    "2006.txt": "7406940b9dba158cf1c8dd8fa21bf0f15a570b6023651f38fa673e4a78d07718",
+    "2007.txt": "6b2aaac6a2ae6185bd37742417f4008fc98957d84efcc2bbd538eca854ef036e",
+    "2008.txt": "17e5f8ba119c3e678a0d3b8f7f33a9364b8165e2f625dd0e10646c3d111d3fed",
+    "2009.txt": "1e803efd69fca60f73bfbf4358e8445df320dc7cdfb6160199d204955761e7ac",
+    "2010.txt": "a7666ae20cbb10960ba9f67cae7427a6e490e15d69eac5f29e215a3a9f797182",
+    "2011.txt": "bd52635c52b4220cb660651bb5535c94bab2ce82a2a9320b700559bb85799815",
+    "2012.txt": "a42df91403cbbf62aace4c6796c8decf1fa39519c3a9640d1d08c04dd208c203",
+    "2013.txt": "f94508197f794615a83642e14a90eb5c1c1de9f2a3c69197fc93e6e018e20bf7",
+    "2014.txt": "76a49418fb5920a19e87cae59792d38cbde1ccffcde94b5f1f0059e157e0c321",
+    "2015.txt": "d20535075878285e604b70cf40e4446a8101a5b4590650ce295a3b5799a79314",
+    "2016.txt": "e0160d906f622ef531adb28fe4c3df6e08ce835716e89874e9ceefcb1a72777f",
+    "2017.txt": "f24bdee1b4caa778c51820b82eb2d23b8690e9f551790d3640c572391029c0f7",
+    "2018.txt": "a7a9fe869d148ddf28e44502f9de9c5e8ab4dbcffcaf1a12ac858a1837504cf8",
+    "2019.txt": "7de41745994166a0c161acc24a5151bb9b4f2090ed262c4f8ab01ffa7f8ddc5d",
+    "2020.txt": "211d7f3aa1b2b1ea848b7bb4a212aed16217e518cb0de75b10533dc70aa32c61",
+    "2021.txt": "35b4f1e993d3fe7d0d2c465e1b7d87de1e9d331328517d6af1fdf46a2979c83f",
+    "2022.txt": "e843e991bbabcda9b5b6cf8e35a4d589f9c5ce46b842e6b0b7153042bdb96dd8",
+    "2023.txt": "b9ce1227cafb414d618879633e451d98685d5d7dca171ca743c94e9da240f9e8",
+    "2024.txt": "6dcea6f930cf1702e28075478107694b03ccc096332df30d74a87f1df2a42129",
+    "2025.txt": "939c99ae17a8efc62521774d27237e60bee82b82b1c8f6607ff3256921ed0052",
+    "2026.txt": "84b5ed65c80a188a8746b66ae51a7cadcb898cb19d19e52dce740bec6c5b06bf"
+  },
+  "evaluations": {
+    "evaluation": {
+      "command": "python3 -m selma evaluate",
+      "before": {
+        "tuning_range": [
+          "2016-01-02",
+          "2025-12-31"
+        ],
+        "tuning_draws": 988,
+        "holdout_range": [
+          "2026-01-03",
+          "2026-10-07"
+        ],
+        "holdout_draws": 80,
+        "selected_on_tuning": "hot20",
+        "seed": 42,
+        "min_history": 100,
+        "bootstrap_repetitions": 1000,
+        "bootstrap_block_draws": 10,
+        "random_expected_matches": 0.7346938775510204,
+        "methods": {
+          "uniform": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.525,
+            "top20_capture_fraction": 0.42083333333333334,
+            "top20_gain_over_chance": 0.07602040816326525,
+            "top20_gain_over_chance_ci95": [
+              -0.16147959183673474,
+              0.3260204081632653
+            ],
+            "top20_gain_over_random_group": 0,
+            "top20_gain_over_random_group_ci95": [
+              0,
+              0
+            ],
+            "top20_match_counts": {
+              "0": 2,
+              "1": 7,
+              "2": 33,
+              "3": 24,
+              "4": 13,
+              "5": 1,
+              "6": 0
+            }
+          },
+          "frequency": {
+            "strength": 0.1,
+            "tuning_brier": 0.1074551567000808,
+            "brier": 0.10745240040591787,
+            "marginal_log_loss": 0.3717629574035849,
+            "brier_improvement": 2.8265828368085473e-06,
+            "brier_improvement_ci95": [
+              -4.196026663973e-06,
+              1.0201823818518051e-05
+            ],
+            "mean_matches": 0.8,
+            "match_improvement": 0.0625,
+            "match_improvement_ci95": [
+              -0.2,
+              0.325
+            ],
+            "match_counts": {
+              "0": 32,
+              "1": 34,
+              "2": 12,
+              "3": 2,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.4,
+            "top20_capture_fraction": 0.39999999999999997,
+            "top20_gain_over_chance": -0.04897959183673475,
+            "top20_gain_over_chance_ci95": [
+              -0.28647959183673477,
+              0.21352040816326526
+            ],
+            "top20_gain_over_random_group": -0.125,
+            "top20_gain_over_random_group_ci95": [
+              -0.4625,
+              0.2
+            ],
+            "top20_match_counts": {
+              "0": 3,
+              "1": 12,
+              "2": 28,
+              "3": 25,
+              "4": 11,
+              "5": 1,
+              "6": 0
+            }
+          },
+          "hot20": {
+            "strength": 0.1,
+            "tuning_brier": 0.10744830383384454,
+            "brier": 0.1074210591940858,
+            "marginal_log_loss": 0.3716158231265289,
+            "brier_improvement": 3.416779466887572e-05,
+            "brier_improvement_ci95": [
+              -5.440682267806307e-05,
+              0.00012919649364846725
+            ],
+            "mean_matches": 0.8,
+            "match_improvement": 0.0625,
+            "match_improvement_ci95": [
+              -0.175,
+              0.2875
+            ],
+            "match_counts": {
+              "0": 34,
+              "1": 32,
+              "2": 10,
+              "3": 4,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.4125,
+            "top20_capture_fraction": 0.40208333333333335,
+            "top20_gain_over_chance": -0.03647959183673475,
+            "top20_gain_over_chance_ci95": [
+              -0.32397959183673475,
+              0.25102040816326526
+            ],
+            "top20_gain_over_random_group": -0.1125,
+            "top20_gain_over_random_group_ci95": [
+              -0.5,
+              0.25
+            ],
+            "top20_match_counts": {
+              "0": 5,
+              "1": 15,
+              "2": 23,
+              "3": 18,
+              "4": 17,
+              "5": 2,
+              "6": 0
+            }
+          },
+          "hot50": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.5,
+            "top20_capture_fraction": 0.4166666666666667,
+            "top20_gain_over_chance": 0.05102040816326525,
+            "top20_gain_over_chance_ci95": [
+              -0.22397959183673474,
+              0.3260204081632653
+            ],
+            "top20_gain_over_random_group": -0.025,
+            "top20_gain_over_random_group_ci95": [
+              -0.375,
+              0.325
+            ],
+            "top20_match_counts": {
+              "0": 3,
+              "1": 12,
+              "2": 26,
+              "3": 24,
+              "4": 11,
+              "5": 4,
+              "6": 0
+            }
+          },
+          "hot100": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.6375,
+            "top20_capture_fraction": 0.4395833333333334,
+            "top20_gain_over_chance": 0.18852040816326526,
+            "top20_gain_over_chance_ci95": [
+              -0.07397959183673475,
+              0.46352040816326523
+            ],
+            "top20_gain_over_random_group": 0.1125,
+            "top20_gain_over_random_group_ci95": [
+              -0.225,
+              0.45
+            ],
+            "top20_match_counts": {
+              "0": 1,
+              "1": 12,
+              "2": 27,
+              "3": 22,
+              "4": 11,
+              "5": 7,
+              "6": 0
+            }
+          },
+          "cold50": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.45,
+            "top20_capture_fraction": 0.4083333333333334,
+            "top20_gain_over_chance": 0.0010204081632652518,
+            "top20_gain_over_chance_ci95": [
+              -0.18647959183673474,
+              0.20102040816326525
+            ],
+            "top20_gain_over_random_group": -0.075,
+            "top20_gain_over_random_group_ci95": [
+              -0.3625,
+              0.2125
+            ],
+            "top20_match_counts": {
+              "0": 6,
+              "1": 11,
+              "2": 22,
+              "3": 26,
+              "4": 12,
+              "5": 3,
+              "6": 0
+            }
+          },
+          "recency": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.4125,
+            "top20_capture_fraction": 0.40208333333333335,
+            "top20_gain_over_chance": -0.03647959183673475,
+            "top20_gain_over_chance_ci95": [
+              -0.33647959183673476,
+              0.2635204081632653
+            ],
+            "top20_gain_over_random_group": -0.1125,
+            "top20_gain_over_random_group_ci95": [
+              -0.4,
+              0.2125
+            ],
+            "top20_match_counts": {
+              "0": 4,
+              "1": 12,
+              "2": 29,
+              "3": 18,
+              "4": 16,
+              "5": 1,
+              "6": 0
+            }
+          }
+        },
+        "top20_random_expected_matches": 2.4489795918367347,
+        "top20_random_match_probabilities": {
+          "0": 0.03396926847435636,
+          "1": 0.16984634237178178,
+          "2": 0.3227080505063854,
+          "3": 0.2978843543135865,
+          "4": 0.14066761175919362,
+          "5": 0.03215259697352997,
+          "6": 0.002771775601166377
+        },
+        "notes": [
+          "Main numbers only; Brier and log loss score marginal inclusion probabilities, not jackpot probabilities.",
+          "One ticket per method per draw. A zero strength produces the uniform ticket.",
+          "Strength and method selection use tuning only. Holdout history updates after each observed draw.",
+          "Intervals are paired circular block bootstrap estimates, not adjusted for multiple comparisons.",
+          "Only the tuning-selected method is the primary comparison; other holdout comparisons are exploratory.",
+          "Historical holdout is not a prospective test. Repeated tuning after viewing it invalidates its role.",
+          "Top-20 is an exploratory coverage test added after inspecting the original holdout results.",
+          "Top-20 uses each underlying unshrunk ranking, including methods whose Brier strength is zero; no method is selected on top-20 holdout performance."
+        ]
+      },
+      "after": {
+        "tuning_range": [
+          "2016-01-02",
+          "2025-12-31"
+        ],
+        "tuning_draws": 1044,
+        "holdout_range": [
+          "2026-01-03",
+          "2026-10-07"
+        ],
+        "holdout_draws": 80,
+        "selected_on_tuning": "hot20",
+        "seed": 42,
+        "min_history": 100,
+        "bootstrap_repetitions": 1000,
+        "bootstrap_block_draws": 10,
+        "random_expected_matches": 0.7346938775510204,
+        "methods": {
+          "uniform": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.525,
+            "top20_capture_fraction": 0.42083333333333334,
+            "top20_gain_over_chance": 0.07602040816326525,
+            "top20_gain_over_chance_ci95": [
+              -0.16147959183673474,
+              0.3260204081632653
+            ],
+            "top20_gain_over_random_group": 0,
+            "top20_gain_over_random_group_ci95": [
+              0,
+              0
+            ],
+            "top20_match_counts": {
+              "0": 2,
+              "1": 7,
+              "2": 33,
+              "3": 24,
+              "4": 13,
+              "5": 1,
+              "6": 0
+            }
+          },
+          "frequency": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.375,
+            "top20_capture_fraction": 0.3958333333333333,
+            "top20_gain_over_chance": -0.07397959183673475,
+            "top20_gain_over_chance_ci95": [
+              -0.31147959183673474,
+              0.13852040816326525
+            ],
+            "top20_gain_over_random_group": -0.15,
+            "top20_gain_over_random_group_ci95": [
+              -0.4875,
+              0.1625
+            ],
+            "top20_match_counts": {
+              "0": 2,
+              "1": 16,
+              "2": 24,
+              "3": 27,
+              "4": 10,
+              "5": 1,
+              "6": 0
+            }
+          },
+          "hot20": {
+            "strength": 0.1,
+            "tuning_brier": 0.10744389600697188,
+            "brier": 0.1074210591940858,
+            "marginal_log_loss": 0.3716158231265289,
+            "brier_improvement": 3.416779466887572e-05,
+            "brier_improvement_ci95": [
+              -5.440682267806307e-05,
+              0.00012919649364846725
+            ],
+            "mean_matches": 0.8,
+            "match_improvement": 0.0625,
+            "match_improvement_ci95": [
+              -0.175,
+              0.2875
+            ],
+            "match_counts": {
+              "0": 34,
+              "1": 32,
+              "2": 10,
+              "3": 4,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.4125,
+            "top20_capture_fraction": 0.40208333333333335,
+            "top20_gain_over_chance": -0.03647959183673475,
+            "top20_gain_over_chance_ci95": [
+              -0.32397959183673475,
+              0.25102040816326526
+            ],
+            "top20_gain_over_random_group": -0.1125,
+            "top20_gain_over_random_group_ci95": [
+              -0.5,
+              0.25
+            ],
+            "top20_match_counts": {
+              "0": 5,
+              "1": 15,
+              "2": 23,
+              "3": 18,
+              "4": 17,
+              "5": 2,
+              "6": 0
+            }
+          },
+          "hot50": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.5,
+            "top20_capture_fraction": 0.4166666666666667,
+            "top20_gain_over_chance": 0.05102040816326525,
+            "top20_gain_over_chance_ci95": [
+              -0.22397959183673474,
+              0.3260204081632653
+            ],
+            "top20_gain_over_random_group": -0.025,
+            "top20_gain_over_random_group_ci95": [
+              -0.375,
+              0.325
+            ],
+            "top20_match_counts": {
+              "0": 3,
+              "1": 12,
+              "2": 26,
+              "3": 24,
+              "4": 11,
+              "5": 4,
+              "6": 0
+            }
+          },
+          "hot100": {
+            "strength": 0.1,
+            "tuning_brier": 0.10745433896266172,
+            "brier": 0.1073553207647855,
+            "marginal_log_loss": 0.3713183926221619,
+            "brier_improvement": 9.990622396916938e-05,
+            "brier_improvement_ci95": [
+              2.8785192223137848e-05,
+              0.00017772545582858072
+            ],
+            "mean_matches": 1.0875,
+            "match_improvement": 0.35,
+            "match_improvement_ci95": [
+              0.1125,
+              0.5875
+            ],
+            "match_counts": {
+              "0": 20,
+              "1": 38,
+              "2": 17,
+              "3": 5,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.6375,
+            "top20_capture_fraction": 0.4395833333333334,
+            "top20_gain_over_chance": 0.18852040816326526,
+            "top20_gain_over_chance_ci95": [
+              -0.07397959183673475,
+              0.46352040816326523
+            ],
+            "top20_gain_over_random_group": 0.1125,
+            "top20_gain_over_random_group_ci95": [
+              -0.225,
+              0.45
+            ],
+            "top20_match_counts": {
+              "0": 1,
+              "1": 12,
+              "2": 27,
+              "3": 22,
+              "4": 11,
+              "5": 7,
+              "6": 0
+            }
+          },
+          "cold50": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.45,
+            "top20_capture_fraction": 0.4083333333333334,
+            "top20_gain_over_chance": 0.0010204081632652518,
+            "top20_gain_over_chance_ci95": [
+              -0.18647959183673474,
+              0.20102040816326525
+            ],
+            "top20_gain_over_random_group": -0.075,
+            "top20_gain_over_random_group_ci95": [
+              -0.3625,
+              0.2125
+            ],
+            "top20_match_counts": {
+              "0": 6,
+              "1": 11,
+              "2": 22,
+              "3": 26,
+              "4": 12,
+              "5": 3,
+              "6": 0
+            }
+          },
+          "recency": {
+            "strength": 0.0,
+            "tuning_brier": 0.10745522698875468,
+            "brier": 0.10745522698875468,
+            "marginal_log_loss": 0.37177617994345286,
+            "brier_improvement": 0.0,
+            "brier_improvement_ci95": [
+              0.0,
+              0.0
+            ],
+            "mean_matches": 0.7375,
+            "match_improvement": 0,
+            "match_improvement_ci95": [
+              0,
+              0
+            ],
+            "match_counts": {
+              "0": 31,
+              "1": 39,
+              "2": 10,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0
+            },
+            "top20_mean_matches": 2.4125,
+            "top20_capture_fraction": 0.40208333333333335,
+            "top20_gain_over_chance": -0.03647959183673475,
+            "top20_gain_over_chance_ci95": [
+              -0.33647959183673476,
+              0.2635204081632653
+            ],
+            "top20_gain_over_random_group": -0.1125,
+            "top20_gain_over_random_group_ci95": [
+              -0.4,
+              0.2125
+            ],
+            "top20_match_counts": {
+              "0": 4,
+              "1": 12,
+              "2": 29,
+              "3": 18,
+              "4": 16,
+              "5": 1,
+              "6": 0
+            }
+          }
+        },
+        "top20_random_expected_matches": 2.4489795918367347,
+        "top20_random_match_probabilities": {
+          "0": 0.03396926847435636,
+          "1": 0.16984634237178178,
+          "2": 0.3227080505063854,
+          "3": 0.2978843543135865,
+          "4": 0.14066761175919362,
+          "5": 0.03215259697352997,
+          "6": 0.002771775601166377
+        },
+        "notes": [
+          "Main numbers only; Brier and log loss score marginal inclusion probabilities, not jackpot probabilities.",
+          "One ticket per method per draw. A zero strength produces the uniform ticket.",
+          "Strength and method selection use tuning only. Holdout history updates after each observed draw.",
+          "Intervals are paired circular block bootstrap estimates, not adjusted for multiple comparisons.",
+          "Only the tuning-selected method is the primary comparison; other holdout comparisons are exploratory.",
+          "Historical holdout is not a prospective test. Repeated tuning after viewing it invalidates its role.",
+          "Top-20 is an exploratory coverage test added after inspecting the original holdout results.",
+          "Top-20 uses each underlying unshrunk ranking, including methods whose Brier strength is zero; no method is selected on top-20 holdout performance."
+        ]
+      }
+    },
+    "structural_evaluation": {
+      "command": "python3 -m selma evaluate-structural",
+      "before": {
+        "holdout_range": [
+          "2026-01-03",
+          "2026-10-07"
+        ],
+        "draws": 80,
+        "stats_from": "2000-01-01",
+        "random_combinations_per_draw": 10000,
+        "seed": 42,
+        "weights": {
+          "oddeven": 0.2,
+          "start": 0.1,
+          "template": 0.15,
+          "sum": 0.2,
+          "consec": 0.2,
+          "recency": 0.15
+        },
+        "metrics": {
+          "oddeven": {
+            "mean_percentile": 0.5354758274172583,
+            "mean_percentile_ci95": [
+              0.491261498850115,
+              0.5784434056594341
+            ],
+            "top10_rate": 0.10903284091786421,
+            "top10_rate_ci95": [
+              0.08634551997944301,
+              0.1318996541479902
+            ]
+          },
+          "start": {
+            "mean_percentile": 0.5080223227677232,
+            "mean_percentile_ci95": [
+              0.4433056694330567,
+              0.5807862963703629
+            ],
+            "top10_rate": 0.10298487763994336,
+            "top10_rate_ci95": [
+              0.07646194727686435,
+              0.13507340825437664
+            ]
+          },
+          "template": {
+            "mean_percentile": 0.5713434906509349,
+            "mean_percentile_ci95": [
+              0.48508586641335866,
+              0.6623931356864313
+            ],
+            "top10_rate": 0.17205720503878275,
+            "top10_rate_ci95": [
+              0.0670468995290423,
+              0.2822837552742616
+            ]
+          },
+          "sum": {
+            "mean_percentile": 0.4698842615738426,
+            "mean_percentile_ci95": [
+              0.4079829517048295,
+              0.5385667683231676
+            ],
+            "top10_rate": 0.04982098047882046,
+            "top10_rate_ci95": [
+              0.02000255102040816,
+              0.07946692489262203
+            ]
+          },
+          "consec": {
+            "mean_percentile": 0.5423826367363264,
+            "mean_percentile_ci95": [
+              0.5030240725927407,
+              0.5844896760323968
+            ],
+            "top10_rate": 0.11128437676233698,
+            "top10_rate_ci95": [
+              0.09603703494943704,
+              0.12842107519771423
+            ]
+          },
+          "recency": {
+            "mean_percentile": 0.5191112138786121,
+            "mean_percentile_ci95": [
+              0.4554194580541946,
+              0.5736826317368263
+            ],
+            "top10_rate": 0.1388130456227991,
+            "top10_rate_ci95": [
+              0.0666068889063812,
+              0.21290994541226488
+            ]
+          },
+          "combined": {
+            "mean_percentile": 0.5532771722827717,
+            "mean_percentile_ci95": [
+              0.4775403709629037,
+              0.637750599940006
+            ],
+            "top10_rate": 0.15,
+            "top10_rate_ci95": [
+              0.0625,
+              0.25
+            ]
+          }
+        },
+        "actual_filtered": 1,
+        "random_filtered_fraction": 0.014912499999999993,
+        "bootstrap_repetitions": 2000,
+        "bootstrap_block_draws": 10,
+        "notes": [
+          "Uses SELMA odd/even, start/template and consecutive helpers; normalized historical frequency scores.",
+          "Fixed default weights, no optimization and no saved model or collected statistics loaded.",
+          "Frequencies use stats-from <= date < current draw; recency history uses all prior draws.",
+          "Recency date cutoff uses >= rather than the legacy exact-date lookup; source numbers are sorted.",
+          "Combined score preserves hard filtering: unseen structural categories rank below accepted combinations.",
+          "Individual metrics are evaluated without the other metrics hard filters; unseen values score zero.",
+          "Controls are independent uniform six-number combinations sampled with replacement across combinations, without replacement within each combination.",
+          "Midrank percentile accounts for ties. Top-10 credit averages uniform tie breaking across the boundary; it may be fractional.",
+          "Chance expectations are 0.5 mean percentile and 0.1 top-10 rate.",
+          "Paired-by-draw rank comparisons; 95% circular block bootstrap intervals, no multiple-testing adjustment.",
+          "Combined fixed-default score is the primary comparison; individual metrics are exploratory.",
+          "Historical evaluation reuses previously examined 2026 data; it is not a fresh prospective holdout."
+        ]
+      },
+      "after": {
+        "holdout_range": [
+          "2026-01-03",
+          "2026-10-07"
+        ],
+        "draws": 80,
+        "stats_from": "2000-01-01",
+        "random_combinations_per_draw": 10000,
+        "seed": 42,
+        "weights": {
+          "oddeven": 0.2,
+          "start": 0.1,
+          "template": 0.15,
+          "sum": 0.2,
+          "consec": 0.2,
+          "recency": 0.15
+        },
+        "metrics": {
+          "oddeven": {
+            "mean_percentile": 0.5354758274172583,
+            "mean_percentile_ci95": [
+              0.491261498850115,
+              0.5784434056594341
+            ],
+            "top10_rate": 0.10903284091786421,
+            "top10_rate_ci95": [
+              0.08634551997944301,
+              0.1318996541479902
+            ]
+          },
+          "start": {
+            "mean_percentile": 0.5080223227677232,
+            "mean_percentile_ci95": [
+              0.4433056694330567,
+              0.5807862963703629
+            ],
+            "top10_rate": 0.10298487763994336,
+            "top10_rate_ci95": [
+              0.07646194727686435,
+              0.13507340825437664
+            ]
+          },
+          "template": {
+            "mean_percentile": 0.5705004499550045,
+            "mean_percentile_ci95": [
+              0.4836166383361664,
+              0.660192105789421
+            ],
+            "top10_rate": 0.17205720503878275,
+            "top10_rate_ci95": [
+              0.0670468995290423,
+              0.2822837552742616
+            ]
+          },
+          "sum": {
+            "mean_percentile": 0.4682350514948505,
+            "mean_percentile_ci95": [
+              0.4057969203079692,
+              0.5373437656234377
+            ],
+            "top10_rate": 0.03925277777777777,
+            "top10_rate_ci95": [
+              0.0125,
+              0.075
+            ]
+          },
+          "consec": {
+            "mean_percentile": 0.5423826367363264,
+            "mean_percentile_ci95": [
+              0.5030240725927407,
+              0.5844896760323968
+            ],
+            "top10_rate": 0.11128437676233698,
+            "top10_rate_ci95": [
+              0.09603703494943704,
+              0.12842107519771423
+            ]
+          },
+          "recency": {
+            "mean_percentile": 0.5197592740725927,
+            "mean_percentile_ci95": [
+              0.45918283171682833,
+              0.5722402759724028
+            ],
+            "top10_rate": 0.13965088328062686,
+            "top10_rate_ci95": [
+              0.06598317865429235,
+              0.2125
+            ]
+          },
+          "combined": {
+            "mean_percentile": 0.5532884211578842,
+            "mean_percentile_ci95": [
+              0.4771810318968103,
+              0.6380968153184682
+            ],
+            "top10_rate": 0.15,
+            "top10_rate_ci95": [
+              0.0625,
+              0.25
+            ]
+          }
+        },
+        "actual_filtered": 1,
+        "random_filtered_fraction": 0.014736249999999992,
+        "bootstrap_repetitions": 2000,
+        "bootstrap_block_draws": 10,
+        "notes": [
+          "Uses SELMA odd/even, start/template and consecutive helpers; normalized historical frequency scores.",
+          "Fixed default weights, no optimization and no saved model or collected statistics loaded.",
+          "Frequencies use stats-from <= date < current draw; recency history uses all prior draws.",
+          "Recency date cutoff uses >= rather than the legacy exact-date lookup; source numbers are sorted.",
+          "Combined score preserves hard filtering: unseen structural categories rank below accepted combinations.",
+          "Individual metrics are evaluated without the other metrics hard filters; unseen values score zero.",
+          "Controls are independent uniform six-number combinations sampled with replacement across combinations, without replacement within each combination.",
+          "Midrank percentile accounts for ties. Top-10 credit averages uniform tie breaking across the boundary; it may be fractional.",
+          "Chance expectations are 0.5 mean percentile and 0.1 top-10 rate.",
+          "Paired-by-draw rank comparisons; 95% circular block bootstrap intervals, no multiple-testing adjustment.",
+          "Combined fixed-default score is the primary comparison; individual metrics are exploratory.",
+          "Historical evaluation reuses previously examined 2026 data; it is not a fresh prospective holdout."
+        ]
+      }
+    },
+    "rolling_evaluation": {
+      "command": "python3 -m selma evaluate-rolling",
+      "before": {
+        "test_range": [
+          "2016-01-02",
+          "2026-10-07"
+        ],
+        "start_year": 2016,
+        "train_years": 5,
+        "stats_from": "2000-01-01",
+        "train_samples": 128,
+        "test_samples": 2000,
+        "seed": 42,
+        "candidate_count": 127,
+        "bootstrap_repetitions": 2000,
+        "bootstrap_block_draws": 10,
+        "aggregate": {
+          "draws": 1068,
+          "learned_percentile": 0.5089969060413614,
+          "learned_percentile_ci95": [
+            0.4928834739933404,
+            0.5264734205930742
+          ],
+          "learned_top10": 0.11239682223276162,
+          "learned_top10_ci95": [
+            0.09621957652364828,
+            0.12895773916625405
+          ],
+          "default_percentile": 0.5141305751618572,
+          "default_percentile_ci95": [
+            0.4963573924648163,
+            0.5325628384309717
+          ],
+          "default_top10": 0.10421348314606717,
+          "default_top10_ci95": [
+            0.0873595505617975,
+            0.12387640449438177
+          ],
+          "percentile_gain": -0.005133669120495931,
+          "percentile_gain_ci95": [
+            -0.018987229231826032,
+            0.009095873411608802
+          ],
+          "top10_gain": 0.008183339086694462,
+          "top10_gain_ci95": [
+            -0.010457508953549539,
+            0.02658989413898226
+          ]
+        },
+        "years": [
+          {
+            "year": 2016,
+            "training_from": "2011-01-01",
+            "training_to": "2015-12-30",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 1.0,
+              "sum": 0.0,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5168701179126199,
+            "default_training_percentile": 0.4905773857257418,
+            "draws": 105,
+            "learned_percentile": 0.4842031365269746,
+            "learned_percentile_ci95": [
+              0.4289402917588825,
+              0.5380476428452441
+            ],
+            "learned_top10": 0.11083043419275303,
+            "learned_top10_ci95": [
+              0.06321138657370541,
+              0.16481264414597746
+            ],
+            "default_percentile": 0.4523714333309536,
+            "default_percentile_ci95": [
+              0.4073606054115799,
+              0.49975488446253064
+            ],
+            "default_top10": 0.10476190476190476,
+            "default_top10_ci95": [
+              0.05714285714285714,
+              0.1523809523809524
+            ],
+            "percentile_gain": 0.031831703196021036,
+            "percentile_gain_ci95": [
+              0.0031674638871040674,
+              0.05856595511767925
+            ],
+            "top10_gain": 0.006068529430848263,
+            "top10_gain_ci95": [
+              -0.040470999746362084,
+              0.05822237558469442
+            ]
+          },
+          {
+            "year": 2017,
+            "training_from": "2012-01-04",
+            "training_to": "2016-12-31",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 1.0,
+              "sum": 0.0,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.502160741334759,
+            "default_training_percentile": 0.4757492055006089,
+            "draws": 104,
+            "learned_percentile": 0.4887892592165456,
+            "learned_percentile_ci95": [
+              0.4449481989774344,
+              0.5328777918732941
+            ],
+            "learned_top10": 0.10564521879074312,
+            "learned_top10_ci95": [
+              0.05184795673076921,
+              0.16346153846153846
+            ],
+            "default_percentile": 0.4638954561180948,
+            "default_percentile_ci95": [
+              0.40874034136777765,
+              0.5132914312074732
+            ],
+            "default_top10": 0.07788461538461453,
+            "default_top10_ci95": [
+              0.03076923076922906,
+              0.125
+            ],
+            "percentile_gain": 0.024893803098450767,
+            "percentile_gain_ci95": [
+              -0.014886787375543005,
+              0.07119036635528389
+            ],
+            "top10_gain": 0.027760603406128598,
+            "top10_gain_ci95": [
+              -0.029807692307691452,
+              0.08547913950456579
+            ]
+          },
+          {
+            "year": 2018,
+            "training_from": "2013-01-02",
+            "training_to": "2017-12-30",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 1.0,
+              "sum": 0.0,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5020939142831685,
+            "default_training_percentile": 0.47416020671834624,
+            "draws": 104,
+            "learned_percentile": 0.5015833429439126,
+            "learned_percentile_ci95": [
+              0.4473988967054934,
+              0.5568802137392842
+            ],
+            "learned_top10": 0.07473958333333333,
+            "learned_top10_ci95": [
+              0.038461538461538464,
+              0.1132011217948718
+            ],
+            "default_percentile": 0.527875485334256,
+            "default_percentile_ci95": [
+              0.4878690462461077,
+              0.5643115942028986
+            ],
+            "default_top10": 0.07788461538461453,
+            "default_top10_ci95": [
+              0.03942307692307607,
+              0.11826923076922821
+            ],
+            "percentile_gain": -0.026292142390343293,
+            "percentile_gain_ci95": [
+              -0.0765819013570138,
+              0.024958674508899388
+            ],
+            "top10_gain": -0.0031450320512811944,
+            "top10_gain_ci95": [
+              -0.05026041666666666,
+              0.0427483974358983
+            ]
+          },
+          {
+            "year": 2019,
+            "training_from": "2014-01-01",
+            "training_to": "2018-12-29",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 0.5,
+              "sum": 0.5,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5036086607858862,
+            "default_training_percentile": 0.483308087558288,
+            "draws": 104,
+            "learned_percentile": 0.482936416407181,
+            "learned_percentile_ci95": [
+              0.4458443854995579,
+              0.5190553761580748
+            ],
+            "learned_top10": 0.07692307692307693,
+            "learned_top10_ci95": [
+              0.038461538461538464,
+              0.125
+            ],
+            "default_percentile": 0.4972225425748664,
+            "default_percentile_ci95": [
+              0.4470120708876331,
+              0.5454532349210011
+            ],
+            "default_top10": 0.06826923076922992,
+            "default_top10_ci95": [
+              0.020192307692306836,
+              0.11826923076922821
+            ],
+            "percentile_gain": -0.014286126167685395,
+            "percentile_gain_ci95": [
+              -0.04503277207550071,
+              0.01867335562987736
+            ],
+            "top10_gain": 0.008653846153847008,
+            "top10_gain_ci95": [
+              -0.03076923076922906,
+              0.04711538461538547
+            ]
+          },
+          {
+            "year": 2020,
+            "training_from": "2015-01-03",
+            "training_to": "2019-12-28",
+            "training_draws": 521,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 0.5,
+              "sum": 0.5,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5021500096713237,
+            "default_training_percentile": 0.4870776235325626,
+            "draws": 100,
+            "learned_percentile": 0.5365467266366817,
+            "learned_percentile_ci95": [
+              0.46163418290854574,
+              0.6163868065967016
+            ],
+            "learned_top10": 0.19,
+            "learned_top10_ci95": [
+              0.11,
+              0.27
+            ],
+            "default_percentile": 0.5480509745127436,
+            "default_percentile_ci95": [
+              0.4868290854572714,
+              0.6093003498250874
+            ],
+            "default_top10": 0.15,
+            "default_top10_ci95": [
+              0.09,
+              0.22
+            ],
+            "percentile_gain": -0.011504247876061975,
+            "percentile_gain_ci95": [
+              -0.04344577711144429,
+              0.022936031984007982
+            ],
+            "top10_gain": 0.04,
+            "top10_gain_ci95": [
+              -0.03,
+              0.11
+            ]
+          },
+          {
+            "year": 2021,
+            "training_from": "2016-01-02",
+            "training_to": "2020-12-26",
+            "training_draws": 517,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 0.25,
+              "sum": 0.0,
+              "consec": 0.75,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5063574887919272,
+            "default_training_percentile": 0.4988829412382109,
+            "draws": 53,
+            "learned_percentile": 0.5212912411718669,
+            "learned_percentile_ci95": [
+              0.4807360470708042,
+              0.5614928384864172
+            ],
+            "learned_top10": 0.08556887501773294,
+            "learned_top10_ci95": [
+              0.018867924528301886,
+              0.16016456234926932
+            ],
+            "default_percentile": 0.5026684770822136,
+            "default_percentile_ci95": [
+              0.4467624678226924,
+              0.5582633211696039
+            ],
+            "default_top10": 0.09433962264150944,
+            "default_top10_ci95": [
+              0.018867924528301886,
+              0.18867924528301888
+            ],
+            "percentile_gain": 0.01862276408965328,
+            "percentile_gain_ci95": [
+              -0.031220238937135204,
+              0.06492037000367741
+            ],
+            "top10_gain": -0.008770747623776496,
+            "top10_gain_ci95": [
+              -0.059231805929919175,
+              0.03291956305858969
+            ]
+          },
+          {
+            "year": 2022,
+            "training_from": "2017-01-04",
+            "training_to": "2021-12-29",
+            "training_draws": 465,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 0.0,
+              "sum": 0.0,
+              "consec": 0.75,
+              "recency": 0.25
+            },
+            "training_percentile": 0.5153204967908643,
+            "default_training_percentile": 0.5099274818704677,
+            "draws": 105,
+            "learned_percentile": 0.4875609814140549,
+            "learned_percentile_ci95": [
+              0.433288117845839,
+              0.5405820899074273
+            ],
+            "learned_top10": 0.08619047619047618,
+            "learned_top10_ci95": [
+              0.02904761904761903,
+              0.1533333333333333
+            ],
+            "default_percentile": 0.48119987625235,
+            "default_percentile_ci95": [
+              0.4321482116084815,
+              0.5227624283096547
+            ],
+            "default_top10": 0.08571428571428572,
+            "default_top10_ci95": [
+              0.0380952380952381,
+              0.13333333333333333
+            ],
+            "percentile_gain": 0.006361105161704866,
+            "percentile_gain_ci95": [
+              -0.043385450132076814,
+              0.0526760429309155
+            ],
+            "top10_gain": 0.00047619047619045743,
+            "top10_gain_ci95": [
+              -0.07476190476190482,
+              0.07666666666666665
+            ]
+          },
+          {
+            "year": 2023,
+            "training_from": "2018-01-03",
+            "training_to": "2022-12-31",
+            "training_draws": 466,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 0.0,
+              "sum": 0.0,
+              "consec": 0.75,
+              "recency": 0.25
+            },
+            "training_percentile": 0.5216671657184683,
+            "default_training_percentile": 0.5114532388461922,
+            "draws": 104,
+            "learned_percentile": 0.5119483527467036,
+            "learned_percentile_ci95": [
+              0.4577518932841272,
+              0.5718558989735901
+            ],
+            "learned_top10": 0.10942307692307691,
+            "learned_top10_ci95": [
+              0.0673076923076923,
+              0.1515384615384615
+            ],
+            "default_percentile": 0.5204032599085073,
+            "default_percentile_ci95": [
+              0.46384500057663475,
+              0.5801810633144966
+            ],
+            "default_top10": 0.10576923076923077,
+            "default_top10_ci95": [
+              0.04807692307692308,
+              0.17307692307692307
+            ],
+            "percentile_gain": -0.008454907161803703,
+            "percentile_gain_ci95": [
+              -0.0597465690231807,
+              0.05134692269249991
+            ],
+            "top10_gain": 0.0036538461538461464,
+            "top10_gain_ci95": [
+              -0.057692307692307696,
+              0.06134615384615384
+            ]
+          },
+          {
+            "year": 2024,
+            "training_from": "2019-01-02",
+            "training_to": "2023-12-30",
+            "training_draws": 466,
+            "weights": {
+              "oddeven": 0.25,
+              "start": 0.0,
+              "template": 0.0,
+              "sum": 0.0,
+              "consec": 0.75,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5255764048308215,
+            "default_training_percentile": 0.5112286655354826,
+            "draws": 104,
+            "learned_percentile": 0.5560296774689578,
+            "learned_percentile_ci95": [
+              0.5015545112059355,
+              0.6162687886825818
+            ],
+            "learned_top10": 0.1303929456211461,
+            "learned_top10_ci95": [
+              0.08578050685967482,
+              0.18223927630364012
+            ],
+            "default_percentile": 0.5798470956829278,
+            "default_percentile_ci95": [
+              0.528874985584131,
+              0.6320541652250797
+            ],
+            "default_top10": 0.10576923076923077,
+            "default_top10_ci95": [
+              0.057692307692307696,
+              0.15384615384615385
+            ],
+            "percentile_gain": -0.023817418213969932,
+            "percentile_gain_ci95": [
+              -0.08511849844308614,
+              0.033149290739245774
+            ],
+            "top10_gain": 0.02462371485191531,
+            "top10_gain_ci95": [
+              -0.035032632613912484,
+              0.08451101527474028
+            ]
+          },
+          {
+            "year": 2025,
+            "training_from": "2020-01-01",
+            "training_to": "2024-12-28",
+            "training_draws": 466,
+            "weights": {
+              "oddeven": 0.25,
+              "start": 0.0,
+              "template": 0.0,
+              "sum": 0.0,
+              "consec": 0.75,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5388511827527698,
+            "default_training_percentile": 0.5290364973217553,
+            "draws": 105,
+            "learned_percentile": 0.5238594988220175,
+            "learned_percentile_ci95": [
+              0.48480521643939933,
+              0.5624449679921943
+            ],
+            "learned_top10": 0.12491975631340346,
+            "learned_top10_ci95": [
+              0.08563921385253336,
+              0.16428171824805168
+            ],
+            "default_percentile": 0.5326003664834249,
+            "default_percentile_ci95": [
+              0.48839627805145047,
+              0.5790842673901144
+            ],
+            "default_top10": 0.13333333333333333,
+            "default_top10_ci95": [
+              0.08571428571428572,
+              0.18095238095238095
+            ],
+            "percentile_gain": -0.008740867661407387,
+            "percentile_gain_ci95": [
+              -0.05811380024273577,
+              0.046291140144213615
+            ],
+            "top10_gain": -0.008413577019929872,
+            "top10_gain_ci95": [
+              -0.07002667926695716,
+              0.04595440806510975
+            ]
+          },
+          {
+            "year": 2026,
+            "training_from": "2021-01-09",
+            "training_to": "2025-12-31",
+            "training_draws": 471,
+            "weights": {
+              "oddeven": 0.5,
+              "start": 0.25,
+              "template": 0.0,
+              "sum": 0.25,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5362415444625488,
+            "default_training_percentile": 0.5241281127075824,
+            "draws": 80,
+            "learned_percentile": 0.5123906796601699,
+            "learned_percentile_ci95": [
+              0.4422038980509745,
+              0.5931659170414793
+            ],
+            "learned_top10": 0.1375,
+            "learned_top10_ci95": [
+              0.0875,
+              0.2
+            ],
+            "default_percentile": 0.5551942778610695,
+            "default_percentile_ci95": [
+              0.4789886306846577,
+              0.6393990504747626
+            ],
+            "default_top10": 0.15,
+            "default_top10_ci95": [
+              0.0625,
+              0.25
+            ],
+            "percentile_gain": -0.042803598200899545,
+            "percentile_gain_ci95": [
+              -0.06465829585207396,
+              -0.020071214392803596
+            ],
+            "top10_gain": -0.0125,
+            "top10_gain_ci95": [
+              -0.1,
+              0.0625
+            ]
+          }
+        ],
+        "notes": [
+          "Weights selected by mean training midrank against uniform random combinations, not absolute scores.",
+          "Fixed nonnegative quarter-step weights summing to one plus defaults. No search choices tuned on test results.",
+          "Each January selects using only previous train-years calendar years; weights stay fixed for the entire test year.",
+          "Frequency tables update before every draw from strictly earlier draws; training features also use strictly prior history.",
+          "Training controls and test controls use independent deterministic random streams; learned and default weights share test controls.",
+          "Hard filters retained for all candidates, including zero-weight features; rejected combinations rank below accepted ones.",
+          "Midranks and fractional top-decile membership handle ties. Chance baselines: 50% and 10%.",
+          "95% circular 10-draw block bootstrap intervals are descriptive; annual weight fitting can induce longer dependence.",
+          "Historical rolling evaluation, including previously examined 2026 data; not a prospective confirmation.",
+          "This is a finite grid search, not a proof that no other weights or models can work."
+        ]
+      },
+      "after": {
+        "test_range": [
+          "2016-01-02",
+          "2026-10-07"
+        ],
+        "start_year": 2016,
+        "train_years": 5,
+        "stats_from": "2000-01-01",
+        "train_samples": 128,
+        "test_samples": 2000,
+        "seed": 42,
+        "candidate_count": 127,
+        "bootstrap_repetitions": 2000,
+        "bootstrap_block_draws": 10,
+        "aggregate": {
+          "draws": 1124,
+          "learned_percentile": 0.5097638013733347,
+          "learned_percentile_ci95": [
+            0.49202911889251105,
+            0.5265465576820131
+          ],
+          "learned_top10": 0.11674449796996816,
+          "learned_top10_ci95": [
+            0.09812797792082863,
+            0.13517704950653472
+          ],
+          "default_percentile": 0.5156149683165535,
+          "default_percentile_ci95": [
+            0.49807613986601007,
+            0.5324790896366763
+          ],
+          "default_top10": 0.10969750889679691,
+          "default_top10_ci95": [
+            0.09172597864768675,
+            0.12766903914590708
+          ],
+          "percentile_gain": -0.005851166943218783,
+          "percentile_gain_ci95": [
+            -0.019783035528499096,
+            0.008034016799429467
+          ],
+          "top10_gain": 0.007046989073171247,
+          "top10_gain_ci95": [
+            -0.01265524932451035,
+            0.025972867092371572
+          ]
+        },
+        "years": [
+          {
+            "year": 2016,
+            "training_from": "2011-01-01",
+            "training_to": "2015-12-30",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 1.0,
+              "sum": 0.0,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5168701179126199,
+            "default_training_percentile": 0.4905773857257418,
+            "draws": 105,
+            "learned_percentile": 0.4842031365269746,
+            "learned_percentile_ci95": [
+              0.4289402917588825,
+              0.5380476428452441
+            ],
+            "learned_top10": 0.11083043419275303,
+            "learned_top10_ci95": [
+              0.06321138657370541,
+              0.16481264414597746
+            ],
+            "default_percentile": 0.4523714333309536,
+            "default_percentile_ci95": [
+              0.4073606054115799,
+              0.49975488446253064
+            ],
+            "default_top10": 0.10476190476190476,
+            "default_top10_ci95": [
+              0.05714285714285714,
+              0.1523809523809524
+            ],
+            "percentile_gain": 0.031831703196021036,
+            "percentile_gain_ci95": [
+              0.0031674638871040674,
+              0.05856595511767925
+            ],
+            "top10_gain": 0.006068529430848263,
+            "top10_gain_ci95": [
+              -0.040470999746362084,
+              0.05822237558469442
+            ]
+          },
+          {
+            "year": 2017,
+            "training_from": "2012-01-04",
+            "training_to": "2016-12-31",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 1.0,
+              "sum": 0.0,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.502160741334759,
+            "default_training_percentile": 0.4757492055006089,
+            "draws": 104,
+            "learned_percentile": 0.4887892592165456,
+            "learned_percentile_ci95": [
+              0.4449481989774344,
+              0.5328777918732941
+            ],
+            "learned_top10": 0.10564521879074312,
+            "learned_top10_ci95": [
+              0.05184795673076921,
+              0.16346153846153846
+            ],
+            "default_percentile": 0.4638954561180948,
+            "default_percentile_ci95": [
+              0.40874034136777765,
+              0.5132914312074732
+            ],
+            "default_top10": 0.07788461538461453,
+            "default_top10_ci95": [
+              0.03076923076922906,
+              0.125
+            ],
+            "percentile_gain": 0.024893803098450767,
+            "percentile_gain_ci95": [
+              -0.014886787375543005,
+              0.07119036635528389
+            ],
+            "top10_gain": 0.027760603406128598,
+            "top10_gain_ci95": [
+              -0.029807692307691452,
+              0.08547913950456579
+            ]
+          },
+          {
+            "year": 2018,
+            "training_from": "2013-01-02",
+            "training_to": "2017-12-30",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 1.0,
+              "sum": 0.0,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5020939142831685,
+            "default_training_percentile": 0.47416020671834624,
+            "draws": 104,
+            "learned_percentile": 0.5015833429439126,
+            "learned_percentile_ci95": [
+              0.4473988967054934,
+              0.5568802137392842
+            ],
+            "learned_top10": 0.07473958333333333,
+            "learned_top10_ci95": [
+              0.038461538461538464,
+              0.1132011217948718
+            ],
+            "default_percentile": 0.527875485334256,
+            "default_percentile_ci95": [
+              0.4878690462461077,
+              0.5643115942028986
+            ],
+            "default_top10": 0.07788461538461453,
+            "default_top10_ci95": [
+              0.03942307692307607,
+              0.11826923076922821
+            ],
+            "percentile_gain": -0.026292142390343293,
+            "percentile_gain_ci95": [
+              -0.0765819013570138,
+              0.024958674508899388
+            ],
+            "top10_gain": -0.0031450320512811944,
+            "top10_gain_ci95": [
+              -0.05026041666666666,
+              0.0427483974358983
+            ]
+          },
+          {
+            "year": 2019,
+            "training_from": "2014-01-01",
+            "training_to": "2018-12-29",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 0.5,
+              "sum": 0.5,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5036086607858862,
+            "default_training_percentile": 0.483308087558288,
+            "draws": 104,
+            "learned_percentile": 0.482936416407181,
+            "learned_percentile_ci95": [
+              0.4458443854995579,
+              0.5190553761580748
+            ],
+            "learned_top10": 0.07692307692307693,
+            "learned_top10_ci95": [
+              0.038461538461538464,
+              0.125
+            ],
+            "default_percentile": 0.4972225425748664,
+            "default_percentile_ci95": [
+              0.4470120708876331,
+              0.5454532349210011
+            ],
+            "default_top10": 0.06826923076922992,
+            "default_top10_ci95": [
+              0.020192307692306836,
+              0.11826923076922821
+            ],
+            "percentile_gain": -0.014286126167685395,
+            "percentile_gain_ci95": [
+              -0.04503277207550071,
+              0.01867335562987736
+            ],
+            "top10_gain": 0.008653846153847008,
+            "top10_gain_ci95": [
+              -0.03076923076922906,
+              0.04711538461538547
+            ]
+          },
+          {
+            "year": 2020,
+            "training_from": "2015-01-03",
+            "training_to": "2019-12-28",
+            "training_draws": 521,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 0.5,
+              "sum": 0.5,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5021500096713237,
+            "default_training_percentile": 0.4870776235325626,
+            "draws": 105,
+            "learned_percentile": 0.5360129459079984,
+            "learned_percentile_ci95": [
+              0.463503962304562,
+              0.6137240903357845
+            ],
+            "learned_top10": 0.19047619047619047,
+            "learned_top10_ci95": [
+              0.11428571428571428,
+              0.26666666666666666
+            ],
+            "default_percentile": 0.5515504152685562,
+            "default_percentile_ci95": [
+              0.4894005378263249,
+              0.611855976773518
+            ],
+            "default_top10": 0.17142857142857143,
+            "default_top10_ci95": [
+              0.10476190476190476,
+              0.24761904761904763
+            ],
+            "percentile_gain": -0.015537469360557821,
+            "percentile_gain_ci95": [
+              -0.04598653054425169,
+              0.017184265010351963
+            ],
+            "top10_gain": 0.01904761904761905,
+            "top10_gain_ci95": [
+              -0.0380952380952381,
+              0.0761904761904762
+            ]
+          },
+          {
+            "year": 2021,
+            "training_from": "2016-01-02",
+            "training_to": "2020-12-30",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 0.25,
+              "sum": 0.0,
+              "consec": 0.0,
+              "recency": 0.75
+            },
+            "training_percentile": 0.5093038106269863,
+            "default_training_percentile": 0.5005568920965874,
+            "draws": 104,
+            "learned_percentile": 0.5376566524430093,
+            "learned_percentile_ci95": [
+              0.48153086918079424,
+              0.5945368661822935
+            ],
+            "learned_top10": 0.15384615384615385,
+            "learned_top10_ci95": [
+              0.07692307692307693,
+              0.23076923076923078
+            ],
+            "default_percentile": 0.5230269480644293,
+            "default_percentile_ci95": [
+              0.47456079652481453,
+              0.5721466189981932
+            ],
+            "default_top10": 0.10576923076923077,
+            "default_top10_ci95": [
+              0.057692307692307696,
+              0.16346153846153846
+            ],
+            "percentile_gain": 0.014629704378579944,
+            "percentile_gain_ci95": [
+              -0.04673864990581632,
+              0.07222110098796755
+            ],
+            "top10_gain": 0.04807692307692308,
+            "top10_gain_ci95": [
+              -0.009615384615384616,
+              0.11538461538461539
+            ]
+          },
+          {
+            "year": 2022,
+            "training_from": "2017-01-04",
+            "training_to": "2021-12-29",
+            "training_draws": 521,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.0,
+              "template": 0.0,
+              "sum": 0.0,
+              "consec": 0.0,
+              "recency": 1.0
+            },
+            "training_percentile": 0.5247139520004761,
+            "default_training_percentile": 0.5148194438244877,
+            "draws": 105,
+            "learned_percentile": 0.4799623997525047,
+            "learned_percentile_ci95": [
+              0.4172651769353419,
+              0.542600128507175
+            ],
+            "learned_top10": 0.08914741641337386,
+            "learned_top10_ci95": [
+              0.02857142857142857,
+              0.16539007092198577
+            ],
+            "default_percentile": 0.4765878965279265,
+            "default_percentile_ci95": [
+              0.4220175626472478,
+              0.5198733966350159
+            ],
+            "default_top10": 0.10476190476190476,
+            "default_top10_ci95": [
+              0.047619047619047616,
+              0.1619047619047619
+            ],
+            "percentile_gain": 0.0033745032245781894,
+            "percentile_gain_ci95": [
+              -0.05643606768044549,
+              0.0677328002665334
+            ],
+            "top10_gain": -0.015614488348530908,
+            "top10_gain_ci95": [
+              -0.10101925025329278,
+              0.08571428571428572
+            ]
+          },
+          {
+            "year": 2023,
+            "training_from": "2018-01-03",
+            "training_to": "2022-12-31",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.0,
+              "start": 0.25,
+              "template": 0.0,
+              "sum": 0.0,
+              "consec": 0.25,
+              "recency": 0.5
+            },
+            "training_percentile": 0.5197659568148743,
+            "default_training_percentile": 0.5152662686744484,
+            "draws": 104,
+            "learned_percentile": 0.49999038942067425,
+            "learned_percentile_ci95": [
+              0.44639218852112406,
+              0.5591531157498174
+            ],
+            "learned_top10": 0.12406015037593988,
+            "learned_top10_ci95": [
+              0.06847165991902841,
+              0.18175245806824758
+            ],
+            "default_percentile": 0.5210399607888363,
+            "default_percentile_ci95": [
+              0.46490216430246417,
+              0.5809042594087571
+            ],
+            "default_top10": 0.10576923076923077,
+            "default_top10_ci95": [
+              0.04807692307692308,
+              0.17307692307692307
+            ],
+            "percentile_gain": -0.02104957136816207,
+            "percentile_gain_ci95": [
+              -0.046690597009187707,
+              0.004718794448929386
+            ],
+            "top10_gain": 0.018290919606709113,
+            "top10_gain_ci95": [
+              -0.0463635049161364,
+              0.08200549450549452
+            ]
+          },
+          {
+            "year": 2024,
+            "training_from": "2019-01-02",
+            "training_to": "2023-12-30",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.25,
+              "start": 0.0,
+              "template": 0.0,
+              "sum": 0.0,
+              "consec": 0.75,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5191645133505599,
+            "default_training_percentile": 0.5149469838724049,
+            "draws": 104,
+            "learned_percentile": 0.5559816245723292,
+            "learned_percentile_ci95": [
+              0.5015232768231269,
+              0.6162207357859532
+            ],
+            "learned_top10": 0.1303929456211461,
+            "learned_top10_ci95": [
+              0.08578050685967482,
+              0.18223927630364012
+            ],
+            "default_percentile": 0.580512628301234,
+            "default_percentile_ci95": [
+              0.5302300772690578,
+              0.6319628647214854
+            ],
+            "default_top10": 0.10576923076923077,
+            "default_top10_ci95": [
+              0.057692307692307696,
+              0.15384615384615385
+            ],
+            "percentile_gain": -0.02453100372890478,
+            "percentile_gain_ci95": [
+              -0.08444816053511706,
+              0.031073405604889855
+            ],
+            "top10_gain": 0.02462371485191531,
+            "top10_gain_ci95": [
+              -0.035032632613912484,
+              0.08451101527474028
+            ]
+          },
+          {
+            "year": 2025,
+            "training_from": "2020-01-01",
+            "training_to": "2024-12-28",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.25,
+              "start": 0.0,
+              "template": 0.25,
+              "sum": 0.25,
+              "consec": 0.25,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5364578692565862,
+            "default_training_percentile": 0.5312453592325285,
+            "draws": 105,
+            "learned_percentile": 0.5288903167463888,
+            "learned_percentile_ci95": [
+              0.4906023178886747,
+              0.5683110825539611
+            ],
+            "learned_top10": 0.09523809523809523,
+            "learned_top10_ci95": [
+              0.047619047619047616,
+              0.1619047619047619
+            ],
+            "default_percentile": 0.5318198043835225,
+            "default_percentile_ci95": [
+              0.48771804573903527,
+              0.5778134742152733
+            ],
+            "default_top10": 0.14285714285714285,
+            "default_top10_ci95": [
+              0.09523809523809523,
+              0.19047619047619047
+            ],
+            "percentile_gain": -0.002929487637133815,
+            "percentile_gain_ci95": [
+              -0.023766688084529166,
+              0.018961947597629758
+            ],
+            "top10_gain": -0.047619047619047616,
+            "top10_gain_ci95": [
+              -0.11428571428571428,
+              0.01904761904761905
+            ]
+          },
+          {
+            "year": 2026,
+            "training_from": "2021-01-02",
+            "training_to": "2025-12-31",
+            "training_draws": 522,
+            "weights": {
+              "oddeven": 0.5,
+              "start": 0.25,
+              "template": 0.0,
+              "sum": 0.25,
+              "consec": 0.0,
+              "recency": 0.0
+            },
+            "training_percentile": 0.5354406130268199,
+            "default_training_percentile": 0.5252160741334759,
+            "draws": 80,
+            "learned_percentile": 0.512009620189905,
+            "learned_percentile_ci95": [
+              0.4413449525237381,
+              0.5927598700649676
+            ],
+            "learned_top10": 0.1375,
+            "learned_top10_ci95": [
+              0.0875,
+              0.2
+            ],
+            "default_percentile": 0.5555628435782108,
+            "default_percentile_ci95": [
+              0.47935407296351823,
+              0.6401736631684158
+            ],
+            "default_top10": 0.15,
+            "default_top10_ci95": [
+              0.0625,
+              0.25
+            ],
+            "percentile_gain": -0.04355322338830584,
+            "percentile_gain_ci95": [
+              -0.06441779110444777,
+              -0.02107696151924037
+            ],
+            "top10_gain": -0.0125,
+            "top10_gain_ci95": [
+              -0.1,
+              0.0625
+            ]
+          }
+        ],
+        "notes": [
+          "Weights selected by mean training midrank against uniform random combinations, not absolute scores.",
+          "Fixed nonnegative quarter-step weights summing to one plus defaults. No search choices tuned on test results.",
+          "Each January selects using only previous train-years calendar years; weights stay fixed for the entire test year.",
+          "Frequency tables update before every draw from strictly earlier draws; training features also use strictly prior history.",
+          "Training controls and test controls use independent deterministic random streams; learned and default weights share test controls.",
+          "Hard filters retained for all candidates, including zero-weight features; rejected combinations rank below accepted ones.",
+          "Midranks and fractional top-decile membership handle ties. Chance baselines: 50% and 10%.",
+          "95% circular 10-draw block bootstrap intervals are descriptive; annual weight fitting can induce longer dependence.",
+          "Historical rolling evaluation, including previously examined 2026 data; not a prospective confirmation.",
+          "This is a finite grid search, not a proof that no other weights or models can work."
+        ]
+      }
+    }
+  },
+  "interpretation": "Learned rolling weights do not demonstrate an advantage over chance or default weights. Some exploratory individual metrics have nominal intervals excluding chance; these are not adjusted for multiple testing, and the examined historical period is not a new prospective holdout.",
+  "second_source_validation": [
+    {
+      "url": "https://www.lottozahlenonline.de/statistik/beide-spieltage/lottozahlen-archiv.php?j=2020",
+      "sha256": "7e0d32d7a1e60a857c2bd86975e1a2b9fd2271e4d41d4058e5f2ad875c34e94d",
+      "matched_records": 105
+    },
+    {
+      "url": "https://www.lottozahlenonline.de/statistik/beide-spieltage/lottozahlen-archiv.php?j=2021",
+      "sha256": "0698cba36dd5315a695ffd3a0f6de0933661aec6f50b0b0d49beb0fb4e32481a",
+      "matched_records": 104
+    }
+  ]
+}

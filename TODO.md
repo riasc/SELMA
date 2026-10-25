@@ -21,4 +21,4 @@
 - [x] Seasonal trends: per-year number frequency (in hotcold)
 
 ## Validation
-- [ ] Backtesting: hold out last N draws, predict using prior data, measure ranking accuracy
+- [x] Walk-forward evaluation: prior-only number probabilities, tuning/holdout split, uniform baseline, match counts and uncertainty intervals (`python -m selma evaluate`)
