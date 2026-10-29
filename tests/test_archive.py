@@ -6,7 +6,7 @@ import unittest
 from zipfile import ZipFile
 
 from selma.archive import HEADER, load_records, schedule_gaps
-from selma.audit_archive import differences, read_official, run
+from selma.audit_archive import auto_mergeable, differences, read_official, run
 from selma.evaluation import load_draws
 
 
@@ -34,6 +34,17 @@ class ArchiveTests(unittest.TestCase):
         gaps = schedule_gaps(rows, '2021-01-09')
         self.assertIn('2021-01-06', gaps['missing_dates'])
         self.assertFalse(any(d < '2000-12-06' for d in gaps['missing_dates']))
+
+    def test_auto_mergeable_only_for_few_new_draws_after_last_local(self):
+        new = lambda day: dict(kind='missing_draw', old=None, new=(day, (1, 2, 3, 4, 5, 6), 0))
+        ok = lambda changes, fmt=(), limit=10: auto_mergeable(changes, fmt, '2026-10-24', '2026-10-31', limit)
+        self.assertTrue(ok([new('2026-10-28'), new('2026-10-31')]))
+        self.assertFalse(ok([]))
+        self.assertFalse(ok([new('2020-01-01')]))
+        self.assertFalse(ok([new('2026-11-04')]))
+        self.assertFalse(ok([new('2026-10-28')], fmt=[dict(issue='missing_header')]))
+        self.assertFalse(ok([new('2026-10-28')] * 3, limit=2))
+        self.assertFalse(ok([dict(kind='result_correction', old=None, new=('2026-10-28', (), 0))]))
 
     def test_rejects_unexplained_deletion(self):
         with self.assertRaisesRegex(ValueError, 'cannot be safely reconciled'):
