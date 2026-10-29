@@ -2,7 +2,7 @@ name: Fetch Draws
 
 on:
   schedule:
-    - cron: '0 7 * * *'  # daily; the official CSV lags the Wed/Sat draw by about a day, and the run exits when nothing is new
+    - cron: '0 7 * * 1,5'  # Monday and Friday 07:00 UTC; the official CSV lags the Wed/Sat draw by about a day
   workflow_dispatch:
 
 permissions:
