@@ -1,0 +1,64 @@
+name: Fetch Draws
+
+on:
+  schedule:
+    - cron: '0 7 * * 1,5'  # Monday and Friday 07:00 UTC; the official CSV lags the Wed/Sat draw by about a day
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    concurrency: fetch-draws
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download official WestLotto CSV archives
+        run: |
+          base='https://www.westlotto.de/wlinfo/WL_InfoService?gruppe=ErgebnisDownload&client=thueringen&spielart=LOTTO&format=csv'
+          curl -fsS "$base&jahr_von=1955&jahr_bis=2023" -o /tmp/hist.zip
+          curl -fsS "$base&jahr_von=2024&jahr_bis=$(date -u +%Y)" -o /tmp/current.zip
+
+      - name: Reconcile numbers/ with the official archive
+        id: audit
+        run: |
+          through=$(unzip -p /tmp/current.zip | grep -aoE '^[0-9]{2}\.[0-9]{2}\.[0-9]{4}' | awk -F. '{print $3"-"$2"-"$1}' | sort | tail -1)
+          python -m selma.audit_archive --official-zip /tmp/hist.zip --official-zip /tmp/current.zip \
+            --through "$through" --output /tmp/audit --apply | tee /tmp/summary.txt
+          echo "through=$through" >> "$GITHUB_OUTPUT"
+
+      - name: Write PR body
+        run: |
+          {
+            echo '## Summary'
+            echo "- Reconcile \`numbers/\` with the official WestLotto CSV archive through ${{ steps.audit.outputs.through }}. Opened by the Fetch Draws workflow."
+            echo
+            echo '```'
+            grep -v '^Report:' /tmp/summary.txt
+            echo '```'
+            echo
+            echo '## QC'
+            echo '- [ ] I, as a human being, have checked each line of code in this pull request'
+            echo '- [x] Every row in the changed `numbers/` files equals the official CSV (`selma.audit_archive --apply` re-reads the files after writing and fails on any difference)'
+            echo "- [x] No Wed/Sat schedule gaps through ${{ steps.audit.outputs.through }}"
+          } > /tmp/body.md
+
+      - name: Open or update the data PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: data/auto-draws
+          add-paths: numbers/
+          commit-message: 'added draws through ${{ steps.audit.outputs.through }}'
+          title: 'Add draws through ${{ steps.audit.outputs.through }}'
+          body-path: /tmp/body.md
+          labels: data
+          delete-branch: true

@@ -212,6 +212,8 @@ Generates a multi-page static site in `docs/`, served via GitHub Pages at [riasc
 
 A GitHub Actions workflow automatically regenerates the visualization when `numbers/`, `selma/`, or `collect/` are updated on push. It runs `collect` and `visualize`, then commits the updated `docs/` and `collect/` back to the repo.
 
+A second workflow (`fetch-draws.yml`) runs on Monday and Friday mornings, downloads the official WestLotto CSV archives, reconciles `numbers/` with them via `selma.audit_archive --apply`, and opens or updates a single `data` pull request on the `data/auto-draws` branch when new or corrected draws exist. Merging that PR triggers the visualization update as usual.
+
 ## Features
 
 Each feature analyzes a structural property of lottery draws:
