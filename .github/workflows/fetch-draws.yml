@@ -12,6 +12,7 @@ permissions:
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    concurrency: fetch-draws
 
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +31,7 @@ jobs:
       - name: Reconcile numbers/ with the official archive
         id: audit
         run: |
-          through=$(unzip -p /tmp/current.zip | grep -oE '^[0-9]{2}\.[0-9]{2}\.[0-9]{4}' | awk -F. '{print $3"-"$2"-"$1}' | sort | tail -1)
+          through=$(unzip -p /tmp/current.zip | grep -aoE '^[0-9]{2}\.[0-9]{2}\.[0-9]{4}' | awk -F. '{print $3"-"$2"-"$1}' | sort | tail -1)
           python -m selma.audit_archive --official-zip /tmp/hist.zip --official-zip /tmp/current.zip \
             --through "$through" --output /tmp/audit --apply | tee /tmp/summary.txt
           echo "through=$through" >> "$GITHUB_OUTPUT"
@@ -42,7 +43,7 @@ jobs:
             echo "- Reconcile \`numbers/\` with the official WestLotto CSV archive through ${{ steps.audit.outputs.through }}. Opened by the Fetch Draws workflow."
             echo
             echo '```'
-            cat /tmp/summary.txt
+            grep -v '^Report:' /tmp/summary.txt
             echo '```'
             echo
             echo '## QC'
