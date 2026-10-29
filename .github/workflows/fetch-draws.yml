@@ -31,13 +31,14 @@ jobs:
 
       - name: Reconcile numbers/ with the official archive
         id: audit
+        shell: bash  # adds pipefail, so a failing audit cannot hide behind tee
         run: |
           through=$(unzip -p /tmp/current.zip | grep -aoE '^[0-9]{2}\.[0-9]{2}\.[0-9]{4}' | awk -F. '{print $3"-"$2"-"$1}' | sort | tail -1)
           python -m selma.audit_archive --official-zip /tmp/hist.zip --official-zip /tmp/current.zip \
             --through "$through" --output /tmp/audit --apply | tee /tmp/summary.txt
           echo "through=$through" >> "$GITHUB_OUTPUT"
-          # Auto-merge only when the sole change is new draws; any correction to an existing draw waits for a human.
-          python -c "import json; d = json.load(open('/tmp/audit/report.json')); print('safe=' + str(set(d['change_counts']) <= {'missing_draw'} and not d['format_changes']).lower())" >> "$GITHUB_OUTPUT"
+          # Auto-merge only a small batch of brand-new draws; any correction waits for a human.
+          python -c "import json; print('safe=' + str(json.load(open('/tmp/audit/report.json'))['auto_mergeable']).lower())" >> "$GITHUB_OUTPUT"
 
       - name: Write PR body
         run: |
@@ -54,7 +55,7 @@ jobs:
               echo '- [x] Only new draws were added, so this PR is merged automatically by the workflow; no human review box applies'
             else
               echo '- [ ] I, as a human being, have checked each line of code in this pull request'
-              echo '- [ ] This PR corrects existing draws, so it was NOT auto-merged'
+              echo '- This PR changes existing draws or adds an unusual batch, so it was NOT auto-merged.'
             fi
             echo '- [x] Every row in the changed `numbers/` files equals the official CSV (`selma.audit_archive --apply` re-reads the files after writing and fails on any difference)'
             echo "- [x] No Wed/Sat schedule gaps through ${{ steps.audit.outputs.through }}"
@@ -73,10 +74,11 @@ jobs:
           delete-branch: true
 
       - name: Merge and refresh the dashboard
-        if: steps.pr.outputs.pull-request-number != '' && steps.audit.outputs.safe == 'true'
+        if: contains(fromJSON('["created","updated"]'), steps.pr.outputs.pull-request-operation) && steps.audit.outputs.safe == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh pr merge "${{ steps.pr.outputs.pull-request-number }}" --squash --delete-branch
+          gh pr merge "${{ steps.pr.outputs.pull-request-number }}" --squash
           # Merges made with GITHUB_TOKEN do not trigger other workflows, so start the dashboard update explicitly.
           gh workflow run visualize.yml --ref master
+          git push origin --delete data/auto-draws || true

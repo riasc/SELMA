@@ -83,6 +83,12 @@ def differences(local, official):
     return changes
 
 
+def auto_mergeable(changes, format_changes, last_local, today, limit=10):
+    """True only for a small batch of brand-new draws dated after the last local draw."""
+    return (not format_changes and 1 <= len(changes) <= limit
+            and all(c['kind'] == 'missing_draw' and last_local < c['new'][0] <= today for c in changes))
+
+
 def run(directory, archives, through, output, apply=False):
     directory, output = Path(directory), Path(output)
     local = load_records(directory)
@@ -113,7 +119,9 @@ def run(directory, archives, through, output, apply=False):
     report = dict(through=through, before_count=len(local), official_count=len(official),
                   applied=apply, sources=sources, excluded=excluded,
                   change_counts=dict(Counter(c['kind'] for c in changes)), changes=changes,
-                  format_changes=format_changes, before_schedule=schedule_gaps(local, through),
+                  format_changes=format_changes,
+                  auto_mergeable=auto_mergeable(changes, format_changes, local[-1][0], date.today().isoformat()),
+                  before_schedule=schedule_gaps(local, through),
                   official_schedule=gaps, changed_files=[p.name for p in prepared],
                   notes=[
                       'Scope: original weekend series through 2000-12-02, unified Wed/Sat series from 2000-12-06; earlier Sunday dates retained as supplied by the official CSV.',
