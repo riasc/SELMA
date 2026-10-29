@@ -1,24 +1,22 @@
 # TODO
 
-## Prediction pipeline rework
-- [ ] Score & rank individual numbers (1-49) using composite of frequency, recency, trend
-- [ ] Select top N candidates (e.g. 15-20) to reduce search space
-- [ ] Generate combinations only from top N candidates
-- [ ] Apply combination-level filters (odd/even, template, distance) as second pass
-- [ ] Output final ranked predictions
+## Open
+- [ ] Show the evaluation-versus-chance results on the dashboard (`visualize.py`)
+- [ ] Optional polish from the PR #5 review: `@staticmethod` for `detOddEvenRatio`/`getStartTemplate` (and `getTemplateGroup`, which it calls), top-level import in `evaluation.py`, drop unused `self.numbers` in `data.py`, dict dispatch in `__main__.py`
+- [ ] Move the README headline results out of the Data Format section
+- [ ] Align CLAUDE.md overview ("prediction and analysis tool") and the `__main__.py` usage text with the analysis-and-evaluation framing
 
-## Number-level patterns
+## Dropped
+- [~] Prediction pipeline rework (rank numbers → top-N candidates → combinations → filters): the chronological evaluations (PR #5) show no advantage over chance in the primary comparisons (exploratory per-metric intervals are not corrected for multiple testing), so a narrower search space cannot help. SELMA stays an analysis and evaluation tool.
+- [~] Number pair frequency: too noisy with limited draws, mostly reflects individual frequency
+
+## Done
 - [x] Hot/cold numbers: rolling window frequency (last 20/50/100 draws vs. overall)
 - [x] Consecutive numbers: count consecutive pairs per draw, weight by historical frequency
 - [x] Sum range: filter/weight combinations by historical sum frequency
-
-## Pair/group analysis
-- [~] Number pair frequency: skipped — too noisy with limited draws, mostly reflects individual frequency
-- [x] Decade spread: covered by templates (group pattern already encodes decade distribution)
-
-## Temporal patterns
-- [x] Day-of-week bias: compare Wednesday vs. Saturday distributions (in hotcold)
-- [x] Seasonal trends: per-year number frequency (in hotcold)
-
-## Validation
-- [x] Walk-forward evaluation: prior-only number probabilities, tuning/holdout split, uniform baseline, match counts and uncertainty intervals (`python -m selma evaluate`)
+- [x] Decade spread: covered by templates
+- [x] Day-of-week and per-year frequency (in hotcold)
+- [x] Walk-forward number-level evaluation against uniform chance (`python -m selma evaluate`)
+- [x] Walk-forward structural-score evaluation against random combinations (`python -m selma evaluate-structural`)
+- [x] Rolling yearly weight learning, 2016–2026, against chance and default weights (`python -m selma evaluate-rolling`)
+- [x] Archive audit and repair against official WestLotto CSV (`python -m selma.audit_archive`)
