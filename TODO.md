@@ -2,11 +2,12 @@
 
 ## Open
 - [ ] Show the evaluation-versus-chance results on the dashboard (`visualize.py`)
-- [ ] Optional polish from the PR #5 review: `@staticmethod` for `detOddEvenRatio`/`getStartTemplate`, top-level import in `evaluation.py`, drop unused `self.numbers` in `data.py`, dict dispatch in `__main__.py`
+- [ ] Optional polish from the PR #5 review: `@staticmethod` for `detOddEvenRatio`/`getStartTemplate` (and `getTemplateGroup`, which it calls), top-level import in `evaluation.py`, drop unused `self.numbers` in `data.py`, dict dispatch in `__main__.py`
 - [ ] Move the README headline results out of the Data Format section
+- [ ] Align CLAUDE.md overview ("prediction and analysis tool") and the `__main__.py` usage text with the analysis-and-evaluation framing
 
 ## Dropped
-- [~] Prediction pipeline rework (rank numbers → top-N candidates → combinations → filters): the chronological evaluations (PR #5) show no predictive signal in any feature, so a narrower search space cannot help. SELMA stays an analysis and evaluation tool.
+- [~] Prediction pipeline rework (rank numbers → top-N candidates → combinations → filters): the chronological evaluations (PR #5) show no advantage over chance in the primary comparisons (exploratory per-metric intervals are not corrected for multiple testing), so a narrower search space cannot help. SELMA stays an analysis and evaluation tool.
 - [~] Number pair frequency: too noisy with limited draws, mostly reflects individual frequency
 
 ## Done
